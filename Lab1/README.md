@@ -33,16 +33,20 @@
 SimpleTokenizer Results:
 Input: Hello, world! This is a test.
 Tokens: ['hello', ',', 'world', '!', 'this', 'is', 'a', 'test', '.']
+
 Input: NLP is fascinating... isn't it?
-Tokens: ['nlp', 'is', 'fascinating', '.', '.', '.', "isn", "'", 't', 'it', '?']
+Tokens: ['nlp', 'is', 'fascinating', '.', '.', '.', 'isn', "'", 't', 'it', '?']
+
 Input: Let's see how it handles 123 numbers and punctuation!
 Tokens: ['let', "'", 's', 'see', 'how', 'it', 'handles', '123', 'numbers', 'and', 'punctuation', '!']
 
 RegexTokenizer Results:
 Input: Hello, world! This is a test.
 Tokens: ['hello', ',', 'world', '!', 'this', 'is', 'a', 'test', '.']
+
 Input: NLP is fascinating... isn't it?
-Tokens: ['nlp', 'is', 'fascinating', '.', '.', '.', "isn", "'", 't', 'it', '?']
+Tokens: ['nlp', 'is', 'fascinating', '.', '.', '.', 'isn', "'", 't', 'it', '?']
+
 Input: Let's see how it handles 123 numbers and punctuation!
 Tokens: ['let', "'", 's', 'see', 'how', 'it', 'handles', '123', 'numbers', 'and', 'punctuation', '!']
 ```
@@ -61,12 +65,12 @@ RegexTokenizer Output (first 20 tokens): ['al', '-', 'zaman', ':', 'american', '
 
 ```
 Learned vocabulary:
-{'ai': 0, 'i': 1, 'is': 2, 'love': 3, 'nlp': 4, 'of': 5, 'programming': 6, 'subfield': 7, '.': 8}
+{'.': 0, 'a': 1, 'ai': 2, 'i': 3, 'is': 4, 'love': 5, 'nlp': 6, 'of': 7, 'programming': 8, 'subfield': 9}
 
 Document-term matrix:
-[0, 1, 0, 1, 1, 0, 0, 0, 1]
-[0, 1, 0, 1, 0, 0, 1, 0, 1]
-[1, 0, 1, 0, 1, 1, 0, 1, 1]
+[1, 0, 0, 1, 0, 1, 1, 0, 0, 0]
+[1, 0, 0, 1, 0, 1, 0, 0, 1, 0]
+[1, 1, 1, 0, 1, 0, 1, 1, 0, 1]
 ```
 
 ### Output của CountVectorizer trên 5 dòng đầu của UD English EWT:
@@ -74,6 +78,7 @@ Document-term matrix:
 ```
 [UD English EWT] Learned vocabulary (first 5 lines):
 {'!': 0, ',': 1, '-': 2, '.': 3, '2': 4, '3': 5, ':': 6, '[': 7, ']': 8, 'a': 9, 'abdullah': 10, 'al': 11, 'american': 12, 'ani': 13, 'announced': 14, 'at': 15, 'authorities': 16, 'baghdad': 17, 'be': 18, 'being': 19, 'border': 20, 'busted': 21, 'by': 22, 'causing': 23, 'cells': 24, 'cleric': 25, 'come': 26, 'dpa': 27, 'for': 28, 'forces': 29, 'had': 30, 'in': 31, 'interior': 32, 'iraqi': 33, 'killed': 34, 'killing': 35, 'ministry': 36, 'moi': 37, 'mosque': 38, 'near': 39, 'of': 40, 'officials': 41, 'operating': 42, 'preacher': 43, 'qaim': 44, 'respected': 45, 'run': 46, 'shaikh': 47, 'syrian': 48, 'terrorist': 49, 'that': 50, 'the': 51, 'them': 52, 'they': 53, 'this': 54, 'to': 55, 'town': 56, 'trouble': 57, 'two': 58, 'up': 59, 'us': 60, 'were': 61, 'will': 62, 'years': 63, 'zaman': 64}
+
 [UD English EWT] Document-term matrix (first 5 lines):
 [0, 1, 2, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
 [0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 2, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -93,3 +98,4 @@ Document-term matrix:
 - **Xử lý tiếng Anh tự nhiên:** Một số trường hợp contraction, ký tự đặc biệt, hoặc dấu câu liên tiếp vẫn có thể gây lỗi tách token, cần tinh chỉnh regex hoặc logic tokenizer.
 
 ---
+
