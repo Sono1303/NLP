@@ -88,7 +88,7 @@ Document-term matrix:
 ```
 
 ## 4. Giải thích kết quả
-- **SimpleTokenizer** tách các dấu câu cơ bản, nhưng có thể tách chưa tốt với các ký tự đặc biệt hoặc contraction (isn't → [isn, ', t]).
+- **SimpleTokenizer** tách các dấu câu cơ bản, nhưng có thể tách chưa tốt với các ký tự đặc biệt hoặc contraction.
 - **RegexTokenizer** dùng regex nên tách tốt hơn, đặc biệt với các dấu câu liền nhau hoặc các ký tự không phải chữ/số.
 - **CountVectorizer** xây dựng vocabulary từ toàn bộ corpus, mỗi document được biểu diễn thành vector đếm số lần xuất hiện của từng từ trong vocabulary.
 - Khi áp dụng lên dataset lớn như UD English EWT, số chiều của vector tăng mạnh, vocabulary đa dạng hơn.
@@ -98,5 +98,6 @@ Document-term matrix:
 - **Xử lý tiếng Anh tự nhiên:** Một số trường hợp contraction, ký tự đặc biệt, hoặc dấu câu liên tiếp vẫn có thể gây lỗi tách token, cần tinh chỉnh regex hoặc logic tokenizer.
 
 ---
+
 
 
