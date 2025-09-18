@@ -23,7 +23,7 @@
   python test/main.py      # kiểm thử tokenizer (Lab 1)
   python test/lab2_test.py # kiểm thử CountVectorizer (Lab 2)
   ```
-- Kết quả sẽ in ra tokenization, vocabulary và document-term matrix cho cả corpus mẫu và 10 dòng đầu của dataset UD English EWT.
+- Kết quả sẽ in ra tokenization, vocabulary và document-term matrix cho cả corpus mẫu và 5 dòng đầu của dataset UD English EWT.
 
 ## 3. Kết quả chạy code
 
@@ -98,4 +98,5 @@ Document-term matrix:
 - **Xử lý tiếng Anh tự nhiên:** Một số trường hợp contraction, ký tự đặc biệt, hoặc dấu câu liên tiếp vẫn có thể gây lỗi tách token, cần tinh chỉnh regex hoặc logic tokenizer.
 
 ---
+
 
