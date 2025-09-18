@@ -14,15 +14,15 @@ sentences = [
 simple_tokenizer = SimpleTokenizer()
 regex_tokenizer = RegexTokenizer()
 
-# print("SimpleTokenizer Results:")
-# for s in sentences:
-#     print(f"Input: {s}")
-#     print(f"Tokens: {simple_tokenizer.tokenize(s)}\n")
+print("SimpleTokenizer Results:")
+for s in sentences:
+    print(f"Input: {s}")
+    print(f"Tokens: {simple_tokenizer.tokenize(s)}\n")
 
-# print("RegexTokenizer Results:")
-# for s in sentences:
-#     print(f"Input: {s}")
-#     print(f"Tokens: {regex_tokenizer.tokenize(s)}\n")
+print("RegexTokenizer Results:")
+for s in sentences:
+    print(f"Input: {s}")
+    print(f"Tokens: {regex_tokenizer.tokenize(s)}\n")
 
 dataset_path = r'E:\NLP\Lab1\UD_English-EWT\en_ewt-ud-train.txt'
 raw_text = load_raw_text_data(dataset_path)
@@ -36,4 +36,5 @@ simple_tokens = simple_tokenizer.tokenize(sample_text)
 print(f"SimpleTokenizer Output (first 20 tokens): {simple_tokens[:20]}")
 
 regex_tokens = regex_tokenizer.tokenize(sample_text)
+
 print(f"RegexTokenizer Output (first 20 tokens): {regex_tokens[:20]}")
