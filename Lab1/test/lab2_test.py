@@ -16,11 +16,11 @@ vectorizer = CountVectorizer(tokenizer)
 
 X = vectorizer.fit_transform(corpus)
 
-# print("Learned vocabulary:")
-# print(vectorizer.vocabulary_)
-# print("\nDocument-term matrix:")
-# for row in X:
-#     print(row)
+print("Learned vocabulary:")
+print(vectorizer.vocabulary_)
+print("\nDocument-term matrix:")
+for row in X:
+    print(row)
 
 ud_path = r'E:\NLP\Lab1\UD_English-EWT\en_ewt-ud-train.txt'
 ud_text = load_raw_text_data(ud_path)
@@ -34,3 +34,4 @@ print(ud_vectorizer.vocabulary_)
 print("\n[UD English EWT] Document-term matrix (first 5 lines):")
 for row in ud_X:
     print(row)
+
