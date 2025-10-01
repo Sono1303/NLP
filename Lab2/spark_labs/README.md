@@ -241,40 +241,9 @@ sbt -J-Xmx4g "runMain com.lhson.spark.Lab17_NLPPipeline"
 - Sử dụng Spark UI để monitor job execution
 - Thêm timing measurements cho từng stage
 
-## 5. MÔ HÌNH VÀ CÔNG CỤ SỬ DỤNG (Models and Tools Used)
+## 5. CÁC THỰC NGHIỆM MỞ RỘNG (Extended Experiments)
 
-### 5.1 Spark MLlib Components
-- **RegexTokenizer**: Built-in tokenizer của Spark MLlib
-- **StopWordsRemover**: Sử dụng English stop words list mặc định
-- **HashingTF**: Hashing-based Term Frequency implementation
-- **IDF**: Inverse Document Frequency calculator
-
-### 5.2 Configuration parameters
-```scala
-// Tokenizer config
-.setPattern("\\W") // Split on non-word characters
-
-// HashingTF config  
-.setNumFeatures(20000) // 20K dimensional feature space
-
-// IDF config
-// Sử dụng default parameters (minDocFreq = 0)
-```
-
-### 5.3 No external AI models used
-Project này không sử dụng:
-- GPT/ChatGPT cho code generation
-- Pre-trained word embeddings (Word2Vec, GloVe)
-- External NLP APIs
-- Cloud-based ML services
-
-Tất cả code được viết thủ công dựa trên Spark MLlib documentation.
-
----
-
-## 6. CÁC THỰC NGHIỆM MỞ RỘNG (Extended Experiments)
-
-### 6.1 Thực nghiệm 1: So sánh Tokenizers
+### 5.1 Thực nghiệm 1: So sánh Tokenizers
 **Mục tiêu**: So sánh hiệu suất giữa RegexTokenizer và basic Tokenizer
 
 **Thực hiện**:
@@ -288,7 +257,7 @@ Tất cả code được viết thủ công dựa trên Spark MLlib documentatio
 - **Ưu điểm Basic Tokenizer**: Đơn giản, nhanh chóng
 - **Ưu điểm RegexTokenizer**: Linh hoạt hơn với regex patterns, tạo ra vocabulary sạch hơn
 
-### 6.2 Thực nghiệm 2: Ảnh hưởng kích thước Feature Vector
+### 5.2 Thực nghiệm 2: Ảnh hưởng kích thước Feature Vector
 **Mục tiêu**: Kiểm tra tác động của việc giảm numFeatures từ 20,000 xuống 1,000
 
 **Thực hiện**:
@@ -302,7 +271,7 @@ Tất cả code được viết thủ công dựa trên Spark MLlib documentatio
 - **Phân tích**: Giảm features làm tăng hash collisions, có thể mất thông tin nhưng tiết kiệm bộ nhớ
 - **Trade-off**: Memory efficiency vs Information preservation
 
-### 6.3 Thực nghiệm 3: Mở rộng Pipeline với Classification
+### 5.3 Thực nghiệm 3: Mở rộng Pipeline với Classification
 **Mục tiêu**: Thêm LogisticRegression để chuyển từ feature extraction sang machine learning task
 
 **Thực hiện**:
@@ -318,7 +287,7 @@ Tất cả code được viết thủ công dựa trên Spark MLlib documentatio
 - **Phân tích**: Model đạt accuracy rất cao (98.20%) với task classification đơn giản
 - **Insight**: TF-IDF features rất hiệu quả cho text classification tasks
 
-### 6.4 Thực nghiệm 4: Word2Vec Implementation (THẤT BẠI)
+### 5.4 Thực nghiệm 4: Word2Vec Implementation (THẤT BẠI)
 **Mục tiêu**: Thay thế HashingTF + IDF bằng Word2Vec để tạo word embeddings
 
 **Thực hiện**:
@@ -337,7 +306,7 @@ Tất cả code được viết thủ công dựa trên Spark MLlib documentatio
 - Sử dụng Java serializer thay vì Kryo (performance impact)
 - Stick with HashingTF + IDF approach (recommended)
 
-### 6.5 Tổng kết các thực nghiệm
+### 5.5 Tổng kết các thực nghiệm
 
 | Thực nghiệm | Trạng thái | Thời gian Fitting | Vocabulary Size | Feature Vector Size | Accuracy |
 |-------------|------------|-------------------|-----------------|---------------------|----------|
@@ -354,6 +323,23 @@ Tất cả code được viết thủ công dựa trên Spark MLlib documentatio
 4. **Word2Vec** bị block bởi Java 17 compatibility issues với Spark MLlib
 5. **Recommended configuration**: RegexTokenizer + HashingTF (20K) + IDF cho balance tốt nhất
 
+## 6. MÔ HÌNH VÀ CÔNG CỤ SỬ DỤNG (Models and Tools Used)
+
+### 6.1 Spark MLlib Components
+- **RegexTokenizer**: Built-in tokenizer của Spark MLlib
+- **StopWordsRemover**: Sử dụng English stop words list mặc định
+- **HashingTF**: Hashing-based Term Frequency implementation
+- **IDF**: Inverse Document Frequency calculator
+
+### 6.2 Configuration parameters
+```scala
+// Tokenizer config
+.setPattern("\\W") // Split on non-word characters
+
+// HashingTF config  
+.setNumFeatures(20000) // 20K dimensional feature space
+
+// IDF config
+// Sử dụng default parameters (minDocFreq = 0)
+```
 ---
-
-
