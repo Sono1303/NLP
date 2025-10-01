@@ -121,8 +121,8 @@ sbt "runMain com.lhson.spark.Lab17_NLPPipeline"
 #### Log file (lab17_metrics.log):
 ```
 --- NLP Pipeline Processing Log ---
-Pipeline fitting duration: 1.64 seconds
-Data transformation duration: 0.56 seconds
+Pipeline fitting duration: 3.26 seconds
+Data transformation duration: 1.18 seconds
 Actual vocabulary size (after preprocessing): 27009 unique terms
 HashingTF feature vector size: 20000
 Records processed: 1000
@@ -358,3 +358,4 @@ Tất cả code được viết thủ công dựa trên Spark MLlib documentatio
 5. **Recommended configuration**: RegexTokenizer + HashingTF (20K) + IDF cho balance tốt nhất
 
 ---
+
