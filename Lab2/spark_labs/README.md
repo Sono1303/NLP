@@ -1,6 +1,6 @@
 # Báo cáo Bài tập Lab17 - Spark NLP Pipeline
 
-## 1. CÁC BƯỚC THỰC HIỆN (Implementation Steps)
+## 1. CÁC BƯỚC THỰC HIỆN
 
 ### 1.1 Thiết lập môi trường phát triển
 - **Ngôn ngữ lập trình**: Scala 2.12.x
@@ -87,7 +87,7 @@ val pipelineModel = pipeline.fit(df)
 val transformedDF = pipelineModel.transform(df)
 ```
 
-## 2. CÁCH CHẠY CODE VÀ GHI LOG KẾT QUẢ (How to Run and Log Results)
+## 2. CÁCH CHẠY CODE VÀ GHI LOG KẾT QUẢ
 
 ### 2.1 Chuẩn bị dữ liệu và môi trường
 ```bash
@@ -139,7 +139,7 @@ Feature Vector Size: 20000
 ================================================================================
 ```
 
-## 3. GIẢI THÍCH KẾT QUẢ ĐẠT ĐƯỢC (Results Explanation)
+## 3. GIẢI THÍCH KẾT QUẢ ĐẠT ĐƯỢC
 
 ### 3.1 Thống kê tổng quan
 - **Số lượng records xử lý**: 1,000 documents từ C4 dataset
@@ -186,7 +186,7 @@ Feature Vector Size: 20000
 - **Feature vectors**: Sẵn sàng cho các algorithms machine learning
 - **Structured output**: Dễ dàng sử dụng cho downstream tasks
 
-## 4. KHÓ KHĂN GẶP PHẢI VÀ CÁCH GIẢI QUYẾT (Difficulties and Solutions)
+## 4. KHÓ KHĂN GẶP PHẢI VÀ CÁCH GIẢI QUYẾT
 
 ### 4.1 Vấn đề tương thích Java version
 **Khó khăn**: 
@@ -241,7 +241,7 @@ sbt -J-Xmx4g "runMain com.lhson.spark.Lab17_NLPPipeline"
 - Sử dụng Spark UI để monitor job execution
 - Thêm timing measurements cho từng stage
 
-## 5. CÁC THỰC NGHIỆM MỞ RỘNG (Extended Experiments)
+## 5. CÁC THỰC NGHIỆM MỞ RỘNG
 
 ### 5.1 Thực nghiệm 1: So sánh Tokenizers
 **Mục tiêu**: So sánh hiệu suất giữa RegexTokenizer và basic Tokenizer
@@ -323,7 +323,7 @@ sbt -J-Xmx4g "runMain com.lhson.spark.Lab17_NLPPipeline"
 4. **Word2Vec** bị block bởi Java 17 compatibility issues với Spark MLlib
 5. **Recommended configuration**: RegexTokenizer + HashingTF (20K) + IDF cho balance tốt nhất
 
-## 6. MÔ HÌNH VÀ CÔNG CỤ SỬ DỤNG (Models and Tools Used)
+## 6. MÔ HÌNH VÀ CÔNG CỤ SỬ DỤNG
 
 ### 6.1 Spark MLlib Components
 - **RegexTokenizer**: Built-in tokenizer của Spark MLlib
@@ -343,3 +343,4 @@ sbt -J-Xmx4g "runMain com.lhson.spark.Lab17_NLPPipeline"
 // Sử dụng default parameters (minDocFreq = 0)
 ```
 ---
+
