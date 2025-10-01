@@ -143,8 +143,8 @@ Feature Vector Size: 20000
 
 ### 3.1 Thống kê tổng quan
 - **Số lượng records xử lý**: 1,000 documents từ C4 dataset
-- **Thời gian fitting pipeline**: 1.64 giây
-- **Thời gian transform dữ liệu**: 0.56 giây
+- **Thời gian fitting pipeline**: 3.26 giây
+- **Thời gian transform dữ liệu**: 1.18 giây
 - **Tổng thời gian xử lý**: ~31 giây (bao gồm khởi động Spark)
 - **Kích thước từ vựng**: 27,009 từ unique (sau khi loại bỏ stop words)
 - **Kích thước feature vector**: 20,000 chiều
@@ -194,7 +194,7 @@ Feature Vector Size: 20000
 - Serialization issues với một số ML algorithms (Word2Vec) trên Java 17
 
 **Giải pháp**:
-- Sử dụng OpenJDK 17 LTS như khuyến nghị
+- Sử dụng OpenJDK 17 LTS 
 - Cấu hình JVM options phù hợp trong build.sbt
 - Thay thế Word2Vec bằng HashingTF + IDF để tránh serialization conflicts
 
@@ -243,16 +243,13 @@ sbt -J-Xmx4g "runMain com.lhson.spark.Lab17_NLPPipeline"
 
 ## 5. MÔ HÌNH VÀ CÔNG CỤ SỬ DỤNG (Models and Tools Used)
 
-### 5.1 Pre-built components (không sử dụng pre-trained models)
-**Lưu ý**: Bài tập này không sử dụng pre-trained models mà xây dựng pipeline từ các building blocks cơ bản.
-
-### 5.2 Spark MLlib Components
+### 5.1 Spark MLlib Components
 - **RegexTokenizer**: Built-in tokenizer của Spark MLlib
 - **StopWordsRemover**: Sử dụng English stop words list mặc định
 - **HashingTF**: Hashing-based Term Frequency implementation
 - **IDF**: Inverse Document Frequency calculator
 
-### 5.3 Configuration parameters
+### 5.2 Configuration parameters
 ```scala
 // Tokenizer config
 .setPattern("\\W") // Split on non-word characters
@@ -264,7 +261,7 @@ sbt -J-Xmx4g "runMain com.lhson.spark.Lab17_NLPPipeline"
 // Sử dụng default parameters (minDocFreq = 0)
 ```
 
-### 5.4 No external AI models used
+### 5.3 No external AI models used
 Project này không sử dụng:
 - GPT/ChatGPT cho code generation
 - Pre-trained word embeddings (Word2Vec, GloVe)
@@ -358,4 +355,5 @@ Tất cả code được viết thủ công dựa trên Spark MLlib documentatio
 5. **Recommended configuration**: RegexTokenizer + HashingTF (20K) + IDF cho balance tốt nhất
 
 ---
+
 
