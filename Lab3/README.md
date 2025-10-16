@@ -1,4 +1,4 @@
-# Lab 3: Word Embeddings - Báo cáo và Phân tích
+# Lab 3: Word Embeddings
 
 ## Phần 1: Tổng quan dự án
 
@@ -13,7 +13,7 @@ Lab 3 tập trung vào việc triển khai và phân tích các kỹ thuật Wor
 ```
 Lab3/
 ├── Lab3.ipynb                          # Notebook chính với visualization
-├── README.md                           # Báo cáo này
+├── README.md                           # Báo cáo
 ├── data/                              
 │   ├── glove.6B/                      # Pre-trained GloVe vectors
 │   ├── UD_English-EWT/                # Training data cho custom model
@@ -85,17 +85,17 @@ Chạy tất cả cells để xem trực quan hóa PCA và phân tích word clus
 
 #### Phân tích từ đồng nghĩa cho "computer"
 ```
-1. computers (0.917)  - Plural form, hoàn hảo
-2. software (0.881)   - Related concept, logic
-3. technology (0.853) - Broader category, reasonable
-4. electronic (0.813) - Hardware relationship
-5. internet (0.806)   - Usage context
+1. computers (0.917)  - Dạng số nhiều, hoàn hảo
+2. software (0.881)   - Khái niệm liên quan, hợp lý
+3. technology (0.853) - Phạm vi rộng hơn, hợp lý
+4. electronic (0.813) - Mối quan hệ phần cứng
+5. internet (0.806)   - Bối cảnh sử dụng
 ```
 
 **Nhận xét**: Pre-trained model thể hiện khả năng nắm bắt:
-- **Morphological relationships**: computer ↔ computers
-- **Semantic fields**: computer ↔ software, technology
-- **Conceptual associations**: computer ↔ electronic, internet
+- **Mối quan hệ hình thái từ**: computer ↔ computers
+- **Trường ngữ nghĩa**: computer ↔ software, technology
+- **Liên kết khái niệm**: computer ↔ electronic, internet
 
 ### 3.2 Custom Word2Vec Training Analysis
 
@@ -115,19 +115,19 @@ Similarities:
 **Phân tích**: 
 - Model tự train đạt similarity scores hợp lý
 - Mối quan hệ gender (man-woman: 0.820) được học tốt
-- Limited vocabulary do dataset nhỏ, nhưng quality acceptable
+- Limited vocabulary do dataset nhỏ, nhưng chất lượng ở mức chấp nhận được
 
 ### 3.3 Spark MLlib Large Dataset Analysis
 
-#### Kết quả impressive
+#### Kết quả ấn tượng
 - **Dataset**: 29,971 documents từ C4
-- **Training time**: 5.85 minutes
-- **Vocabulary**: 78,930 words (rất lớn!)
-- **Vector dimensions**: 100D
+- **Thời gian training**: 5.85 phút
+- **Vocabulary**: 78,930 từ (rất lớn!)
+- **Chiều vector**: 100D
 
-#### Quality comparison
+#### So sánh chất lượng
 ```
-Similar to 'computer':
+Tương tự với 'computer':
 1. computers (0.798)
 2. desktop (0.702)
 3. laptop (0.680)
@@ -136,38 +136,38 @@ Similar to 'computer':
 
 **Phân tích**:
 - Vocabulary 20x lớn hơn custom model
-- Semantic relationships rõ ràng: computer → desktop, laptop
-- Large dataset training cho kết quả robust hơn
+- Mối quan hệ ngữ nghĩa rõ ràng: computer → desktop, laptop
+- Training trên dataset lớn cho kết quả robust hơn
 
 ### 3.4 Visualization Analysis (PCA + Scatter Plot)
 
 #### Phương pháp
-- **Dimensionality reduction**: PCA từ 100D → 2D
-- **Variance explained**: ~10-15% (trade-off acceptable cho visualization)
-- **Visualization**: Scatter plot với vector arrows từ origin
+- **Giảm chiều**: PCA từ 100D → 2D
+- **Phương sai giải thích**: ~10-15% (đánh đổi phù hợp cho visualization)
+- **Trực quan hóa**: Scatter plot với vector arrows từ gốc tọa độ
 
 #### Phân tích biểu đồ trực quan hóa
 
-##### Clustering observations cho từ "king"
+##### Quan sát clustering cho từ "king"
 ```
-Similar words clustered: queen, prince, kingdom, royal...
+Các từ tương tự được nhóm: queen, prince, kingdom, royal...
 ```
 
 **Kết quả quan sát**:
-1. **Spatial clustering**: Các từ semantically related có xu hướng gần nhau trong 2D space
-2. **Gender relationships**: "king" và "queen" có khoảng cách hợp lý, thể hiện similar concepts nhưng different gender
-3. **Hierarchical relationships**: "prince", "duke" cluster gần "king", thể hiện royal hierarchy
-4. **Contextual relationships**: "kingdom", "castle" gần nhau, thể hiện domain context
+1. **Phân cụm không gian**: Các từ có liên quan về mặt ngữ nghĩa có xu hướng gần nhau trong không gian 2D
+2. **Mối quan hệ giới tính**: "king" và "queen" có khoảng cách hợp lý, thể hiện khái niệm tương tự nhưng khác giới tính
+3. **Mối quan hệ cấp bậc**: "prince", "duke" cluster gần "king", thể hiện thứ bậc hoàng gia
+4. **Mối quan hệ bối cảnh**: "kingdom", "castle" gần nhau, thể hiện bối cảnh lĩnh vực
 
-##### Cụm từ thú vị phát hiện được
-- **Royal cluster**: king, queen, prince, royal, kingdom
-- **Technology cluster**: computer, software, technology, electronic
-- **Geographic cluster**: country, city, state, nation
+##### Cụm từ thú vị được phát hiện
+- **Cụm hoàng gia**: king, queen, prince, royal, kingdom
+- **Cụm công nghệ**: computer, software, technology, electronic
+- **Cụm địa lý**: country, city, state, nation
 
 **Giải thích tại sao**:
-- GloVe học từ co-occurrence statistics, nên từ xuất hiện cùng context sẽ có vectors tương tự
-- PCA projection bảo toàn relative distances, cho phép quan sát clustering patterns
-- 2D visualization tuy mất thông tin nhưng vẫn thể hiện được main semantic relationships
+- GloVe học từ thống kê đồng xuất hiện, nên từ xuất hiện cùng ngữ cảnh sẽ có vectors tương tự
+- Phép chiếu PCA bảo toàn khoảng cách tương đối, cho phép quan sát các mẫu clustering
+- Trực quan hóa 2D tuy mất thông tin nhưng vẫn thể hiện được các mối quan hệ ngữ nghĩa chính
 
 ### 3.5 So sánh Models
 
@@ -181,28 +181,28 @@ Similar words clustered: queen, prince, kingdom, royal...
 | **Training time** | N/A | Seconds | Minutes |
 
 **Kết luận**: 
-- Pre-trained model có quality tốt nhất do massive training data
-- Custom model với limited data vẫn học được basic relationships
-- Spark model cân bằng tốt giữa quality và training efficiency
+- Pre-trained model có chất lượng tốt nhất do data training lớn
+- Custom model với limited data vẫn học được các mối quan hệ ngữ nghĩa cơ bản
+- Spark model cân bằng tốt giữa chất lượng và hiệu suất
 
 ## Phần 4: Khó khăn và Giải pháp
 
-### 4.1 Vấn đề Memory với Large Dataset
+### 4.1 Vấn đề bộ nhớ với Dataset lớn
 
 **Khó khăn**: 
-- File C4 dataset lớn (30K documents) gây memory overflow khi xử lý với sample_fraction=1.0
-- Spark tasks failed do insufficient memory
+- File C4 dataset lớn (30K documents) gây tràn bộ nhớ khi xử lý với sample_fraction=1.0
+- Spark tasks thất bại do không đủ bộ nhớ
 
 **Giải pháp**:
 - Tối ưu Spark configuration với adaptive execution
-- Sử dụng `.cache()` cho processed DataFrames
-- Error handling robust để cleanup resources
+- Sử dụng `.cache()` cho việc xử lý DataFrames
+- Xử lý lỗi robust để cleanup các tài nguyên hệ thống
 
-### 4.2 Visualization Performance
+### 4.2 Visualization
 
 **Khó khăn**:
 - PCA trên 400K vectors mất thời gian
-- Matplotlib rendering slow với large scatter plots
+- Matplotlib hiển thị chậm với các biểu đồ scatter lớn
 
 **Giải pháp**:
 - Subset vectors cho visualization thay vì full vocabulary
@@ -224,55 +224,10 @@ Similar words clustered: queen, prince, kingdom, royal...
 
 **Khó khăn**:
 - Multiple scripts tạo nhiều files với timestamps
-- Difficult để track latest results
+- Khó khăn trong việc track latest results
 
 **Giải pháp**:
 - Chuyển sang single output file per script
-- Overwrite thay vì append để maintain latest results
+- Ghi đè thay vì append để maintain latest results
 - Clear naming convention
-
-## Phần 5: Kết luận và Đánh giá
-
-### Thành tựu đạt được
-✅ **Hoàn thành 100% requirements (5/5 tasks)**:
-1. Pre-trained model usage với excellent results
-2. Document embedding implementation
-3. Custom Word2Vec training thành công
-4. Large-scale Spark MLlib training
-5. Professional visualization với PCA + scatter plots
-
-### Insights quan trọng
-1. **Scale matters**: Larger datasets → better embeddings quality
-2. **Visualization value**: 2D projections reveal semantic structures
-3. **Tool diversity**: Different tools (Gensim/Spark) có trade-offs khác nhau
-4. **Engineering quality**: Proper error handling và output management quan trọng
-
-### Future improvements
-- Implement t-SNE comparison với PCA
-- Add quantitative evaluation metrics
-- Experiment với different vector dimensions
-- Interactive visualization với Plotly
-
-## Phần 6: Tài liệu tham khảo
-
-### Chính thức
-1. **Gensim Documentation**: https://radimrehurek.com/gensim/
-2. **Apache Spark MLlib Guide**: https://spark.apache.org/docs/latest/ml-guide.html
-3. **GloVe: Global Vectors for Word Representation**: Pennington et al., 2014
-4. **Word2Vec**: Mikolov et al., 2013
-
-### Kỹ thuật
-1. **Scikit-learn PCA**: https://scikit-learn.org/stable/modules/decomposition.html
-2. **Matplotlib Visualization**: https://matplotlib.org/stable/tutorials/
-3. **NumPy Documentation**: https://numpy.org/doc/stable/
-
-### Dataset sources
-1. **GloVe Pre-trained Vectors**: https://nlp.stanford.edu/projects/glove/
-2. **Universal Dependencies**: https://universaldependencies.org/
-3. **C4 Dataset**: Common Crawl clean text
-
 ---
-
-**Tác giả**: Lab3 Implementation Report  
-**Ngày**: October 16, 2025  
-**Version**: 1.0
