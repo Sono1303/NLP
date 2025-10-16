@@ -132,8 +132,7 @@ def main():
     results_dir = "results"
     os.makedirs(results_dir, exist_ok=True)
     
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file_path = os.path.join(results_dir, f'lab4_training_demo_output_{timestamp}.txt')
+    output_file_path = os.path.join(results_dir, 'lab4_training_demo_output.txt')
     
     with open(output_file_path, 'w', encoding='utf-8') as output_file:
         output_file.write("Lab 4: Custom Word2Vec Training Demo\n")

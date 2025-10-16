@@ -17,8 +17,7 @@ def main():
     results_dir = os.path.join(os.path.dirname(current_dir), 'results')
     os.makedirs(results_dir, exist_ok=True)
     
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = os.path.join(results_dir, f'lab4_test_output_{timestamp}.txt')
+    output_file = os.path.join(results_dir, 'lab4_test_output.txt')
     
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write("Lab 4: WordEmbedder Test\n")
@@ -76,8 +75,7 @@ if __name__ == "__main__":
         # Also save error to file
         results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'results')
         os.makedirs(results_dir, exist_ok=True)
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        error_file = os.path.join(results_dir, f'lab4_test_error_{timestamp}.txt')
+        error_file = os.path.join(results_dir, 'lab4_test_error.txt')
         with open(error_file, 'w', encoding='utf-8') as f:
             f.write(f"Error occurred at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write(f"Error: {e}\n")
