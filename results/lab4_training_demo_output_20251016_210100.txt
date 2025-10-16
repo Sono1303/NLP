@@ -1,5 +1,0 @@
-Lab 4: Custom Word2Vec Training Demo
-Execution started at: 2025-10-16 21:01:00
-============================================================
-
-Error: Training data not found at data\UD_English-EWT\en_ewt-ud-train.txt
