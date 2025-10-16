@@ -1,0 +1,24 @@
+PySpark Word2Vec Similarity Results
+==================================================
+
+Words similar to 'computer':
+  1. israel          (similarity: 0.7998)
+  2. widened         (similarity: 0.7692)
+  3. demanded        (similarity: 0.7610)
+  4. global          (similarity: 0.7607)
+  5. resolution      (similarity: 0.7502)
+
+Words similar to 'data':
+  1. analysis        (similarity: 0.7713)
+  2. geocene         (similarity: 0.7422)
+  3. interest        (similarity: 0.7328)
+  4. global          (similarity: 0.7310)
+  5. rubber          (similarity: 0.7159)
+
+Words similar to 'system':
+  1. ac              (similarity: 0.8460)
+  2. businesses      (similarity: 0.8385)
+  3. air             (similarity: 0.8369)
+  4. clean           (similarity: 0.8264)
+  5. efficiency      (similarity: 0.8215)
+
