@@ -65,8 +65,6 @@ def main():
         f.write(f"First 5 values: {doc_vector[:5]}\n")
         f.write(f"Is zero vector: {np.allclose(doc_vector, 0)}\n")
         
-        f.write("\nTest completed.\n")
-        
     print(f"Output saved to: {output_file}")
 
 

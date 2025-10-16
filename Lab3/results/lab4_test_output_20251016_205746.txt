@@ -1,5 +1,5 @@
 Lab 4: WordEmbedder Test
-Execution time: 2025-10-16 20:53:19
+Execution time: 2025-10-16 20:57:46
 ==================================================
 
 1. Get vector for 'king':
@@ -22,5 +22,3 @@ Sentence: 'The queen rules the country.'
 Vector shape: (50,)
 First 5 values: [ 0.02444201  0.378018   -0.638166    0.0128046   0.0524286 ]
 Is zero vector: False
-
-Test completed.

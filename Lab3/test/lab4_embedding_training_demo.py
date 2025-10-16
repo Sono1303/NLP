@@ -1,6 +1,8 @@
 import sys
 import os
 import re
+import time
+from datetime import datetime
 from gensim.models import Word2Vec
 import numpy as np
 from typing import List
@@ -18,10 +20,12 @@ class EWTDataStreamer:
     def __init__(self, file_path: str):
         self.file_path = file_path
         
-    def load_sentences(self) -> List[List[str]]:
+    def load_sentences(self, output_file=None) -> List[List[str]]:
         """Load sentences from EWT corpus file."""
         if not os.path.exists(self.file_path):
-            print(f"Error: File not found: {self.file_path}")
+            error_msg = f"Error: File not found: {self.file_path}"
+            if output_file:
+                output_file.write(error_msg + "\n")
             return []
             
         sentences = []
@@ -36,18 +40,23 @@ class EWTDataStreamer:
         return sentences
 
 
-def train_word2vec_model(data_path: str, model_save_path: str) -> Word2Vec:
+def train_word2vec_model(data_path: str, model_save_path: str, output_file) -> Word2Vec:
     """Train a Word2Vec model on the EWT corpus."""
     
     # Load training data
+    output_file.write("Loading training data...\n")
     streamer = EWTDataStreamer(data_path)
-    sentences = streamer.load_sentences()
+    sentences = streamer.load_sentences(output_file)
     
     if not sentences:
-        print("No training data available!")
+        output_file.write("No training data available!\n")
         return None
     
-    print(f"Training on {len(sentences)} sentences...")
+    output_file.write(f"Training on {len(sentences)} sentences...\n")
+    
+    # Record training start time
+    training_start_time = time.time()
+    output_file.write(f"Training started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     
     # Train Word2Vec model
     model = Word2Vec(
@@ -60,20 +69,26 @@ def train_word2vec_model(data_path: str, model_save_path: str) -> Word2Vec:
         epochs=10
     )
     
-    print(f"Training completed. Vocabulary: {len(model.wv.key_to_index):,} words")
+    # Record training end time
+    training_end_time = time.time()
+    training_duration = training_end_time - training_start_time
+    
+    output_file.write(f"Training completed at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    output_file.write(f"Training duration: {training_duration:.2f} seconds ({training_duration/60:.2f} minutes)\n")
+    output_file.write(f"Training completed. Vocabulary: {len(model.wv.key_to_index):,} words\n")
     
     # Save the model
     os.makedirs(os.path.dirname(model_save_path), exist_ok=True)
     model.save(model_save_path)
-    print(f"Model saved to: {model_save_path}")
+    output_file.write(f"Model saved to: {model_save_path}\n")
     
     return model
 
 
-def demonstrate_model_usage(model: Word2Vec):
+def demonstrate_model_usage(model: Word2Vec, output_file):
     """Demonstrate the usage of the trained Word2Vec model."""
     
-    print(f"\nModel demo - Vocab: {len(model.wv.key_to_index):,}, Dims: {model.wv.vector_size}")
+    output_file.write(f"\nModel demo - Vocab: {len(model.wv.key_to_index):,}, Dims: {model.wv.vector_size}\n")
     
     # Test words
     test_words = ["the", "man", "woman", "king", "good", "bad"]
@@ -81,12 +96,12 @@ def demonstrate_model_usage(model: Word2Vec):
     
     if len(available_words) >= 2:
         # Word similarities
-        print("Similarities:")
+        output_file.write("Similarities:\n")
         for i in range(min(2, len(available_words)-1)):
             word1, word2 = available_words[i], available_words[i+1]
             try:
                 similarity = model.wv.similarity(word1, word2)
-                print(f"  {word1}-{word2}: {similarity:.3f}")
+                output_file.write(f"  {word1}-{word2}: {similarity:.3f}\n")
             except KeyError:
                 pass
     
@@ -95,7 +110,7 @@ def demonstrate_model_usage(model: Word2Vec):
         word = available_words[0]
         try:
             similar = model.wv.most_similar(word, topn=3)
-            print(f"Similar to '{word}': {', '.join([w for w, s in similar])}")
+            output_file.write(f"Similar to '{word}': {', '.join([w for w, s in similar])}\n")
         except KeyError:
             pass
     
@@ -105,7 +120,7 @@ def demonstrate_model_usage(model: Word2Vec):
             result = model.wv.most_similar(positive=["woman", "king"], negative=["man"], topn=1)
             if result:
                 answer, score = result[0]
-                print(f"Analogy man:woman :: king:{answer} ({score:.3f})")
+                output_file.write(f"Analogy man:woman :: king:{answer} ({score:.3f})\n")
         except:
             pass
 
@@ -113,27 +128,53 @@ def demonstrate_model_usage(model: Word2Vec):
 def main():
     """Main function to run the embedding training demo."""
     
-    print("Lab 4: Custom Word2Vec Training Demo")
+    # Setup output file
+    results_dir = "results"
+    os.makedirs(results_dir, exist_ok=True)
     
-    # File paths
-    data_path = os.path.join("data", "UD_English-EWT", "en_ewt-ud-train.txt")
-    model_save_path = os.path.join("results", "word2vec_ewt.model")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_file_path = os.path.join(results_dir, f'lab4_training_demo_output_{timestamp}.txt')
     
-    if not os.path.exists(data_path):
-        print(f"Error: Training data not found at {data_path}")
-        return
-    
-    try:
-        # Train the model
-        model = train_word2vec_model(data_path, model_save_path)
+    with open(output_file_path, 'w', encoding='utf-8') as output_file:
+        output_file.write("Lab 4: Custom Word2Vec Training Demo\n")
+        output_file.write(f"Execution started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        output_file.write("=" * 60 + "\n\n")
         
-        if model:
-            # Demonstrate usage
-            demonstrate_model_usage(model)
-            print("\nTraining completed successfully!")
+        # File paths
+        data_path = os.path.join("data", "UD_English-EWT", "en_ewt-ud-train.txt")
+        model_save_path = os.path.join("results", "word2vec_ewt.model")
         
-    except Exception as e:
-        print(f"Error: {e}")
+        if not os.path.exists(data_path):
+            output_file.write(f"Error: Training data not found at {data_path}\n")
+            return
+        
+        try:
+            # Record total execution start time
+            total_start_time = time.time()
+            
+            # Train the model
+            model = train_word2vec_model(data_path, model_save_path, output_file)
+            
+            if model:
+                # Demonstrate usage
+                demonstrate_model_usage(model, output_file)
+                
+                # Record total execution time
+                total_end_time = time.time()
+                total_duration = total_end_time - total_start_time
+                
+                output_file.write("\n" + "=" * 60 + "\n")
+                output_file.write("SUMMARY\n")
+                output_file.write("=" * 60 + "\n")
+                output_file.write(f"Total execution time: {total_duration:.2f} seconds ({total_duration/60:.2f} minutes)\n")
+                output_file.write(f"Execution completed at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                output_file.write("Training completed successfully!\n")
+            
+        except Exception as e:
+            output_file.write(f"Error: {e}\n")
+            output_file.write(f"Error occurred at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    
+    print(f"Output saved to: {output_file_path}")
 
 
 if __name__ == "__main__":
