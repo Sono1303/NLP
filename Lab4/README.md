@@ -31,6 +31,21 @@ Báo cáo và Phân tích (50%)
   python test/lab5_spark_sentiment_analysis_app_3.py
   python test/lab5_spark_sentiment_analysis_advanced.py
   ```
+  Created README_Lab5_Report.txt
+  
+  Đã tạo file báo cáo README_Lab5_Report.txt bằng tiếng Việt, tổng hợp kết quả từ Lab4/results và mô tả đầy đủ các bước, cách chạy, phân tích kết quả, khó khăn, giải pháp và tài liệu tham khảo. Bạn có thể mở file này để nộp hoặc chỉnh sửa thêm!
+  
+  dài hơn, chi tiêt hơn
+  
+  README_Lab5_Report.txt+78-42
+  Đã mở rộng và chi tiết hóa báo cáo README_Lab5_Report.txt:
+  
+  Giải thích từng bước pipeline, lý do chọn kỹ thuật, mô tả chi tiết các mô hình và đặc trưng.
+  Phân tích kết quả từng mô hình, nhận xét về hiệu quả từng kỹ thuật.
+  Hướng dẫn chạy từng script, cách kiểm tra kết quả.
+  Trình bày rõ các khó khăn thực tế và giải pháp đã áp dụng.
+  Liệt kê tài liệu tham khảo đầy đủ.
+  
 - Kết quả sẽ được lưu vào thư mục `Lab4/results/` với tên file tương ứng.
 - Có thể mở file kết quả để xem các chỉ số đánh giá từng mô hình.
 
