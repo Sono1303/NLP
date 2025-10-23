@@ -1,4 +1,4 @@
-from core.interfaces import Tokenizer
+from Lab1.src.core.interfaces import Tokenizer
 import re
 
 class RegexTokenizer(Tokenizer):

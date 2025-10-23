@@ -1,4 +1,4 @@
-from core.interfaces import Vectorizer, Tokenizer
+from Lab1.src.core.interfaces import Vectorizer, Tokenizer
 
 class CountVectorizer(Vectorizer):
     def __init__(self, tokenizer: Tokenizer):
