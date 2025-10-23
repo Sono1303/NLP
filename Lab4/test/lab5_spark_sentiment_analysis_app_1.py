@@ -57,9 +57,9 @@ filter_tokens_udf = udf(filter_tokens, ArrayType(StringType()))
 df = df.withColumn("filtered_words_final", filter_tokens_udf(col("filtered_words")))
 print(f"After vocabulary reduction: {df.count()}")
 
-# Loại bỏ câu quá ngắn
-df = df.filter(size(col("filtered_words_final")) >= MIN_SENT_LEN)
-print(f"After removing short sentences: {df.count()}")
+# # Loại bỏ câu quá ngắn
+# df = df.filter(size(col("filtered_words_final")) >= MIN_SENT_LEN)
+# print(f"After removing short sentences: {df.count()}")
 
 ## 7. TF-IDF with reduced dimensionality
 hashingTF = HashingTF(inputCol="filtered_words_final", outputCol="raw_features", numFeatures=NUM_FEATURES)
