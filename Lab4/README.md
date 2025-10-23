@@ -1,6 +1,6 @@
 # Báo cáo Lab4: Text Classification & Sentiment Analysis
 
-### 1. Giải thích chi tiết các bước triển khai theo từng task
+### 1. Giải thích chi tiết các bước triển khai
 
 **Task 1: Scikit-learn TextClassifier**
 - Xây dựng class `TextClassifier` trong `src/models/text_classifier.py` với các phương thức:
