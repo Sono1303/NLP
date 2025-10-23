@@ -47,10 +47,10 @@
 - Có thể mở file kết quả để xem các chỉ số đánh giá từng mô hình.
 
 
-### 3. Phân tích kết quả theo từng task
+### 3. Phân tích kết quả
 
-**Task 1: Scikit-learn TextClassifier**
-- File: `src/models/text_classifier.py`, kiểm thử: `test/lab5_test.py`
+**Task 2: Basic Test Case**
+- File: `test/lab5_test.py`
 - Mô hình LogisticRegression với CountVectorizer trên dữ liệu nhỏ.
 - Kết quả kiểm thử:
 ```
@@ -62,27 +62,27 @@ precision: 0.500
 recall: 1.000
 f1: 0.667
 ```
-- Nhận xét: Mô hình scikit-learn hoạt động tốt trên dữ liệu nhỏ, kiểm tra đúng chức năng fit/predict/evaluate. Đây là bước xác nhận baseline trước khi chuyển sang Spark.
+- Nhận xét & Giải thích:
+  - Accuracy và precision đều đạt 0.5, recall đạt 1.0, f1 đạt 0.667. Điều này cho thấy mô hình dự đoán đúng toàn bộ các mẫu thuộc một lớp (recall=1.0), nhưng precision thấp do dự đoán nhầm sang lớp còn lại.
+  - Nguyên nhân có thể do tập dữ liệu kiểm thử rất nhỏ, phân phối nhãn không cân bằng hoặc số lượng mẫu quá ít khiến mô hình chưa học được ranh giới phân loại rõ ràng.
+  - Kết quả này phù hợp với mục tiêu kiểm thử chức năng (fit, predict, evaluate) của class TextClassifier, không nhằm tối ưu hóa độ chính xác mà để xác nhận pipeline hoạt động đúng.
+  - Đây là baseline tối thiểu trước khi áp dụng các pipeline lớn hơn với Spark và dữ liệu thực tế.
 
-**Task 2: Basic Test Case**
-- File: `test/lab5_test.py`
-- Chia nhỏ dữ liệu, tiền xử lý bằng RegexTokenizer và CountVectorizer.
-- Kết quả kiểm thử:
+**Task 3: Baseline Model (LogisticRegression, TF-IDF)**
+- File: `test/lab5_spark_sentiment_analysis.py`
+- Mô hình baseline sử dụng TF-IDF để vector hóa văn bản và LogisticRegression để phân loại.
+- Kết quả:
 ```
 Model training time: 4.6797 seconds
 Model evaluation time: 0.9917 seconds
 Test Accuracy: 0.7295
 Test F1 Score: 0.7266
 ```
-- Nhận xét: Kiểm thử xác nhận pipeline tiền xử lý và phân loại hoạt động đúng, đảm bảo dữ liệu chia train/test độc lập, không rò rỉ thông tin.
-
-**Task 3: Baseline Model (LogisticRegression, TF-IDF)**
-- File: `test/lab5_spark_sentiment_analysis.py`
-- Mô hình baseline sử dụng TF-IDF để vector hóa văn bản và LogisticRegression để phân loại.
-- Kết quả:
-  - Accuracy: 0.7333
-  - F1-score: 0.7316
-- Nhận xét: TF-IDF giúp mô hình LogisticRegression phân biệt tốt các đặc trưng quan trọng trong văn bản. Đây là chuẩn để so sánh với các phương pháp cải tiến.
+- Nhận xét & Giải thích:
+  - Accuracy ~0.73 và F1 ~0.73 cho thấy mô hình baseline đã học được các đặc trưng quan trọng từ văn bản nhờ TF-IDF, phân biệt được các nhãn cảm xúc ở mức khá tốt.
+  - Thời gian huấn luyện và đánh giá nhanh nhờ Spark ML pipeline tối ưu hóa trên dữ liệu lớn.
+  - Tuy nhiên, kết quả này cũng phản ánh giới hạn của mô hình tuyến tính (LogisticRegression) và đặc trưng TF-IDF: mô hình chỉ tận dụng tần suất từ, chưa khai thác được ngữ nghĩa sâu hoặc mối quan hệ giữa các từ.
+  - Đây là chuẩn để so sánh với các phương pháp cải tiến về preprocessing, embedding hoặc mô hình phức tạp hơn ở các task sau.
 
 **Task 4: Improved Models and Techniques**
 
@@ -90,39 +90,79 @@ Test F1 Score: 0.7266
 - File: `test/lab5_spark_sentiment_analysis_app_1.py`
 - Áp dụng lọc nhiễu, giảm từ vựng, giảm chiều đặc trưng TF-IDF.
 - Mục tiêu: Giảm noise, tăng chất lượng đặc trưng, giúp mô hình tổng quát tốt hơn.
+- Kết quả thực tế:
+  ```
+  Model training time: 17.3923 seconds
+  Model evaluation time: 0.0890 seconds
+  Test Accuracy: 0.7366
+  Test F1 Score: 0.7369
+  ```
+- Nhận xét & Giải thích:
+  - Accuracy và F1 tăng nhẹ so với baseline (0.7366 vs 0.7295), cho thấy preprocessing nâng cao giúp mô hình tổng quát tốt hơn, giảm nhiễu.
+  - Thời gian huấn luyện tăng do pipeline phức tạp hơn.
+  - Đây là bước cải tiến hiệu quả, nhưng mức tăng còn hạn chế do đặc trưng vẫn dựa trên TF-IDF.
 
 *B. Sử dụng Embedding Word2Vec*
 - File: `test/lab5_spark_sentiment_analysis_app_2.py`
 - Thay thế TF-IDF bằng Word2Vec để biểu diễn văn bản.
-- Kết quả:
-  - LogisticRegression (Word2Vec): Accuracy 0.6529, F1 0.6002
-  - GBT (Word2Vec): Accuracy 0.6775, F1 0.6480
-  - NeuralNet (Word2Vec): Accuracy 0.6382, F1 0.5115
-- Nhận xét: Word2Vec giúp biểu diễn ngữ nghĩa tốt hơn, nhưng khi chỉ lấy trung bình vector từ cho cả câu, thông tin ngữ cảnh bị mất, kết quả chưa vượt qua TF-IDF.
+- Kết quả thực tế:
+  ```
+  Model training time: 5.8546 seconds
+  Model evaluation time: 0.0536 seconds
+  Test Accuracy: 0.6573
+  Test F1 Score: 0.5921
+  ```
+- Nhận xét & Giải thích:
+  - Độ chính xác và F1 giảm rõ rệt so với TF-IDF (F1: 0.5921 so với 0.7369), cho thấy việc chỉ lấy trung bình vector từ làm mất nhiều thông tin ngữ cảnh.
+  - Word2Vec có tiềm năng biểu diễn ngữ nghĩa, nhưng cần kỹ thuật tổng hợp tốt hơn hoặc embedding lớn hơn để phát huy hiệu quả.
+  - Thời gian train nhanh hơn do số chiều đặc trưng giảm.
 
 *C. Thử nghiệm các mô hình phức tạp hơn*
 - File: `test/lab5_spark_sentiment_analysis_app_3.py`
 - Sử dụng các mô hình: NaiveBayes, GBT, NeuralNet trên đặc trưng TF-IDF.
-- Kết quả:
-  - NaiveBayes (TF-IDF): Accuracy 0.7333, F1 0.7359
-  - GBT (TF-IDF): Accuracy 0.7255, F1 0.6910
-  - NeuralNet (TF-IDF): Accuracy 0.7637, F1 0.7635
-- Nhận xét: NeuralNet học được biểu diễn phức tạp từ TF-IDF, cho kết quả tốt nhất. NaiveBayes phù hợp với dữ liệu văn bản, GBT cần tối ưu thêm tham số.
+Kết quả thực tế:
+
+| Mô hình                   | TrainTime(s) | EvalTime(s) | Accuracy | F1    |
+|---------------------------|--------------|-------------|----------|-------|
+| Bag-of-Words + NaiveBayes | 1.87         | 0.08        | 0.7115   | 0.7074|
+| Bag-of-Words + GBT        | 4.67         | 0.04        | 0.7024   | 0.6630|
+| Bag-of-Words + NeuralNet  | 6.95         | 0.04        | 0.7403   | 0.7274|
+
+- Nhận xét & Giải thích:
+  - NeuralNet cho F1 cao nhất (0.7274), vượt nhẹ baseline, cho thấy mô hình phi tuyến có thể khai thác tốt hơn đặc trưng TF-IDF.
+  - NaiveBayes và GBT cho kết quả tương đương baseline, phù hợp với đặc thù dữ liệu văn bản.
+  - Thời gian train tăng dần theo độ phức tạp mô hình.
 
 *D. Kết hợp nhiều cải tiến (Advanced Pipeline)*
 - File: `test/lab5_spark_sentiment_analysis_advanced.py`
 - Kết hợp preprocessing nâng cao, embedding (Word2Vec), và các mô hình phức tạp.
-- Kết quả cho thấy:
-  - Tiền xử lý nâng cao giúp loại bỏ nhiễu, tăng chất lượng đặc trưng, đặc biệt với TF-IDF.
-  - NeuralNet với TF-IDF vẫn cho kết quả tốt nhất, chứng tỏ đặc trưng TF-IDF phù hợp với bài toán phân loại cảm xúc văn bản này.
-  - Word2Vec chưa vượt qua TF-IDF, nhưng có thể cải thiện nếu dùng embedding lớn hơn hoặc kết hợp với các đặc trưng khác.
-  - GBT và NeuralNet có thể khai thác tốt đặc trưng phi tuyến, nhưng cần tối ưu thêm tham số và cấu trúc mạng.
+Kết quả thực tế:
+
+| Mô hình                  | TrainTime(s) | EvalTime(s) | Accuracy | F1    |
+|--------------------------|--------------|-------------|----------|-------|
+| LogisticRegression       | 8.03         | 0.05        | 0.7333   | 0.7316|
+| NaiveBayes               | 3.94         | 0.06        | 0.7333   | 0.7359|
+| GBT                      | 12.07        | 0.04        | 0.7255   | 0.6910|
+| NeuralNet                | 7.73         | 0.03        | 0.7637   | 0.7635|
+| LogisticRegression_W2V   | 8.45         | 0.05        | 0.6529   | 0.6002|
+| GBT_W2V                  | 13.50        | 0.04        | 0.6775   | 0.6480|
+| NeuralNet_W2V            | 6.93         | 0.05        | 0.6382   | 0.5115|
+
+- Nhận xét & Giải thích:
+  - NeuralNet với TF-IDF cho F1 cao nhất (0.7635), vượt rõ rệt các mô hình khác, chứng tỏ mô hình phi tuyến và đặc trưng TF-IDF phù hợp nhất với bài toán này.
+  - Word2Vec khi chỉ lấy trung bình vector từ cho kết quả thấp hơn TF-IDF ở mọi mô hình.
+  - NaiveBayes và LogisticRegression cho kết quả ổn định, GBT cần tối ưu thêm tham số.
+  - Kết hợp nhiều cải tiến giúp kiểm chứng pipeline tối ưu, nhưng TF-IDF + NeuralNet vẫn là lựa chọn tốt nhất trên tập dữ liệu này.
 
 **So sánh và phân tích hiệu quả cải tiến**
-- Các cải tiến về preprocessing giúp giảm nhiễu, tăng chất lượng đặc trưng đầu vào.
-- Word2Vec có tiềm năng nhưng cần kỹ thuật kết hợp hoặc embedding lớn hơn để phát huy hiệu quả.
-- NeuralNet cho kết quả tốt nhất nhờ khả năng học biểu diễn phức tạp.
-- Việc kết hợp nhiều phương pháp giúp kiểm chứng và chọn ra pipeline tối ưu cho từng bài toán cụ thể.
+**Tổng hợp so sánh các pipeline và mô hình:**
+- Preprocessing nâng cao (lọc nhiễu, giảm từ vựng) giúp tăng nhẹ độ chính xác và F1 so với baseline, nhưng hiệu quả còn hạn chế nếu đặc trưng vẫn dựa trên TF-IDF.
+- Word2Vec khi chỉ lấy trung bình vector từ cho kết quả thấp hơn TF-IDF ở mọi mô hình, do mất thông tin ngữ cảnh. Để phát huy sức mạnh embedding, cần kỹ thuật tổng hợp tốt hơn (attention, sequence model) hoặc dùng embedding lớn hơn, pre-trained.
+- NeuralNet với TF-IDF consistently cho F1 cao nhất (0.7635), vượt rõ rệt các mô hình tuyến tính và các đặc trưng khác. Điều này cho thấy mô hình phi tuyến có khả năng học biểu diễn phức tạp, tận dụng tốt đặc trưng tần suất từ.
+- NaiveBayes và LogisticRegression cho kết quả ổn định, phù hợp với dữ liệu văn bản, nhưng bị giới hạn bởi tính tuyến tính và không tận dụng được quan hệ phi tuyến giữa các đặc trưng.
+- GBT có tiềm năng nhưng cần tối ưu thêm tham số, hiện tại chưa vượt được NeuralNet.
+- Kết hợp nhiều cải tiến giúp kiểm chứng pipeline tối ưu, nhưng trên tập dữ liệu này, TF-IDF + NeuralNet vẫn là lựa chọn tốt nhất về hiệu quả tổng thể.
+- Thời gian huấn luyện tăng dần theo độ phức tạp pipeline và mô hình, cần cân nhắc trade-off giữa hiệu quả và chi phí tính toán khi triển khai thực tế.
 
 ### 4. Khó khăn thực tế và giải pháp
 - **Xử lý label:** Dữ liệu gốc có label -1, 1. Phải chuyển -1 thành 0 để phù hợp với các mô hình Spark ML (yêu cầu label là số nguyên không âm).
@@ -130,6 +170,10 @@ Test F1 Score: 0.7266
 - **Memory error:** Khi dùng GBT với số chiều đặc trưng lớn, gặp lỗi bộ nhớ. Đã khắc phục bằng cách giảm numFeatures của HashingTF.
 - **Chất lượng embedding:** Word2Vec cần dữ liệu lớn và đa dạng để học embedding tốt. Có thể thử pre-trained embedding (GloVe, FastText) nếu muốn cải thiện.
 - **Tối ưu pipeline:** Việc kết hợp nhiều bước tiền xử lý, đặc trưng và mô hình cần kiểm tra kỹ để tránh lỗi và đảm bảo dữ liệu đầu vào hợp lệ.
+ - **Tuning hyperparameter:** Việc chọn tham số tối ưu cho các mô hình (như learning rate, số chiều embedding, số layer NeuralNet, maxIter...) ảnh hưởng lớn đến kết quả. Cần thử nghiệm grid search hoặc random search để tìm cấu hình tốt nhất.
+ - **Reproducibility:** Kết quả có thể thay đổi giữa các lần chạy do random seed, chia dữ liệu train/test khác nhau. Nên cố định seed và ghi rõ quy trình chia dữ liệu để đảm bảo tái lập.
+ - **Dữ liệu thiếu hoặc lỗi:** Một số dòng dữ liệu có thể bị thiếu trường hoặc lỗi định dạng, cần kiểm tra và loại bỏ kỹ trước khi huấn luyện.
+ - **Triển khai thực tế:** Khi áp dụng trên dữ liệu lớn hơn hoặc môi trường production, cần cân nhắc về tài nguyên tính toán, thời gian huấn luyện, và khả năng mở rộng (scaling) của pipeline.
 
 ### 5. Tài liệu tham khảo
 ---
