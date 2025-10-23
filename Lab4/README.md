@@ -31,42 +31,43 @@ Báo cáo và Phân tích (50%)
   python test/lab5_spark_sentiment_analysis_app_3.py
   python test/lab5_spark_sentiment_analysis_advanced.py
   ```
-  Created README_Lab5_Report.txt
-  
-  Đã tạo file báo cáo README_Lab5_Report.txt bằng tiếng Việt, tổng hợp kết quả từ Lab4/results và mô tả đầy đủ các bước, cách chạy, phân tích kết quả, khó khăn, giải pháp và tài liệu tham khảo. Bạn có thể mở file này để nộp hoặc chỉnh sửa thêm!
-  
-  dài hơn, chi tiêt hơn
-  
-  README_Lab5_Report.txt+78-42
-  Đã mở rộng và chi tiết hóa báo cáo README_Lab5_Report.txt:
-  
-  Giải thích từng bước pipeline, lý do chọn kỹ thuật, mô tả chi tiết các mô hình và đặc trưng.
-  Phân tích kết quả từng mô hình, nhận xét về hiệu quả từng kỹ thuật.
-  Hướng dẫn chạy từng script, cách kiểm tra kết quả.
-  Trình bày rõ các khó khăn thực tế và giải pháp đã áp dụng.
-  Liệt kê tài liệu tham khảo đầy đủ.
-  
 - Kết quả sẽ được lưu vào thư mục `Lab4/results/` với tên file tương ứng.
 - Có thể mở file kết quả để xem các chỉ số đánh giá từng mô hình.
 
+
 ### 3. Phân tích kết quả từng mô hình
+
 - **Kết quả mô hình baseline (LogisticRegression, TF-IDF):**
   - Accuracy: 0.7333
   - F1-score: 0.7316
+  - Giải thích: TF-IDF là phương pháp vector hóa truyền thống, giúp mô hình LogisticRegression phân biệt tốt các đặc trưng quan trọng trong văn bản. Kết quả này là chuẩn để so sánh với các phương pháp khác.
+
 - **Kết quả mô hình cải tiến:**
   - NaiveBayes (TF-IDF): Accuracy 0.7333, F1 0.7359
+    - Giải thích: NaiveBayes phù hợp với dữ liệu văn bản, đặc biệt khi đặc trưng là tần suất từ. Kết quả tương đương LogisticRegression, cho thấy TF-IDF vẫn là đặc trưng mạnh với bài toán này.
   - GBT (TF-IDF): Accuracy 0.7255, F1 0.6910
+    - Giải thích: GBT là mô hình ensemble mạnh, có thể khai thác tốt các đặc trưng phi tuyến. Tuy nhiên, với đặc trưng TF-IDF, kết quả chưa vượt trội, có thể do cần tối ưu thêm tham số hoặc dữ liệu chưa đủ lớn.
   - NeuralNet (TF-IDF): Accuracy 0.7637, F1 0.7635
+    - Giải thích: NeuralNet học được biểu diễn phức tạp từ TF-IDF, cho kết quả tốt nhất. Điều này chứng tỏ mạng nơ-ron có khả năng khai thác sâu các đặc trưng văn bản khi dữ liệu đủ lớn và tiền xử lý tốt.
+
+- **Kết quả với Word2Vec:**
   - LogisticRegression (Word2Vec): Accuracy 0.6529, F1 0.6002
   - GBT (Word2Vec): Accuracy 0.6775, F1 0.6480
   - NeuralNet (Word2Vec): Accuracy 0.6382, F1 0.5115
+  - Giải thích: Word2Vec là phương pháp embedding hiện đại, giúp biểu diễn từ theo ngữ nghĩa. Tuy nhiên, khi chỉ lấy trung bình vector từ cho cả câu, thông tin ngữ cảnh bị mất, dẫn đến kết quả chưa vượt qua TF-IDF. Có thể thử các phương pháp kết hợp hoặc dùng pre-trained embedding để cải thiện.
 
-- **Nhận xét chi tiết:**
-  - NeuralNet với TF-IDF cho kết quả tốt nhất, chứng tỏ mạng nơ-ron có khả năng học biểu diễn phức tạp từ đặc trưng TF-IDF.
-  - Word2Vec chưa vượt qua TF-IDF trên tập dữ liệu này, có thể do embedding chưa đủ lớn hoặc dữ liệu chưa đa dạng.
-  - NaiveBayes và LogisticRegression cho kết quả tương đương, phù hợp với bài toán phân loại văn bản đơn giản.
-  - GBT có thể khai thác tốt đặc trưng phi tuyến nhưng cần tối ưu thêm tham số.
-  - Tiền xử lý nâng cao giúp tăng chất lượng đặc trưng, loại bỏ nhiễu và dữ liệu không hữu ích.
+- **Phương pháp kết hợp (Advanced Preprocessing + TF-IDF + Word2Vec + nhiều mô hình):**
+  - Khi kết hợp tiền xử lý nâng cao, giảm từ vựng, loại câu ngắn, và thử nghiệm nhiều mô hình trên cả TF-IDF và Word2Vec, kết quả cho thấy:
+    - Tiền xử lý nâng cao giúp loại bỏ nhiễu, tăng chất lượng đặc trưng, đặc biệt với TF-IDF.
+    - NeuralNet với TF-IDF vẫn cho kết quả tốt nhất, chứng tỏ đặc trưng TF-IDF phù hợp với bài toán phân loại cảm xúc văn bản này.
+    - Word2Vec chưa vượt qua TF-IDF, nhưng có thể cải thiện nếu dùng embedding lớn hơn hoặc kết hợp với các đặc trưng khác.
+    - GBT và NeuralNet có thể khai thác tốt đặc trưng phi tuyến, nhưng cần tối ưu thêm tham số và cấu trúc mạng.
+
+- **Nhận xét tổng quan:**
+  - TF-IDF vẫn là đặc trưng mạnh cho bài toán phân loại văn bản, đặc biệt khi kết hợp với tiền xử lý nâng cao.
+  - NeuralNet cho kết quả tốt nhất nhờ khả năng học biểu diễn phức tạp.
+  - Word2Vec phù hợp với các bài toán cần hiểu ngữ nghĩa sâu, nhưng cần kỹ thuật kết hợp hoặc embedding lớn hơn để phát huy hiệu quả.
+  - Việc kết hợp nhiều phương pháp giúp kiểm chứng và chọn ra pipeline tối ưu cho từng bài toán cụ thể.
 
 ### 4. Khó khăn thực tế và giải pháp
 - **Xử lý label:** Dữ liệu gốc có label -1, 1. Phải chuyển -1 thành 0 để phù hợp với các mô hình Spark ML (yêu cầu label là số nguyên không âm).
@@ -76,13 +77,5 @@ Báo cáo và Phân tích (50%)
 - **Tối ưu pipeline:** Việc kết hợp nhiều bước tiền xử lý, đặc trưng và mô hình cần kiểm tra kỹ để tránh lỗi và đảm bảo dữ liệu đầu vào hợp lệ.
 
 ### 5. Tài liệu tham khảo
-- [Scikit-learn documentation](https://scikit-learn.org/)
-- [PySpark ML documentation](https://spark.apache.org/docs/latest/ml-guide.html)
-- [Hướng dẫn xử lý dữ liệu văn bản với Spark ML](https://spark.apache.org/docs/latest/ml-features.html)
-- [Word2Vec in Spark ML](https://spark.apache.org/docs/latest/ml-features.html#word2vec)
-- [Gradient-Boosted Trees in Spark ML](https://spark.apache.org/docs/latest/ml-classification-regression.html#gradient-boosted-trees-gbts)
-- [MultilayerPerceptronClassifier in Spark ML](https://spark.apache.org/docs/latest/ml-classification-regression.html#multilayer-perceptron-classifier)
-
 ---
 
-**Kết quả chi tiết các mô hình được lưu tại thư mục `Lab4/results/`. Có thể mở các file kết quả để so sánh từng mô hình, từng loại đặc trưng.**
