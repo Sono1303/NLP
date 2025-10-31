@@ -771,7 +771,7 @@ predictions = torch.argmax(output_data, dim=-1)
 2. **`forward()` method**:
    - Định nghĩa data flow
    - Được gọi khi: `model(input)`
-   - Không gọi trực tiếp: `model.forward(input)` ❌
+   - Không gọi trực tiếp: `model.forward(input)`
    - Return output của model
 
 **Các methods hữu ích**:
