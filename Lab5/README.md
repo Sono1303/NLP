@@ -1,4 +1,4 @@
-# Lab 5: PyTorch Introduction - Báo Cáo Kết Quả
+# Lab 5: PyTorch Introduction
 ---
 
 ## Phần 1: Khám phá Tensor
