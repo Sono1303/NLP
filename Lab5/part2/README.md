@@ -26,7 +26,7 @@ Mục đích chính là hiểu rõ ưu điểm của các mô hình chuỗi (RNN
 
 ### Nhận xét về kết quả định lượng
 
-**Quan sát bất ngờ:** Kết quả cho thấy mô hình đơn giản nhất (TF-IDF + Logistic Regression) đạt hiệu suất tốt nhất với **83.36% accuracy**, trong khi các mô hình LSTM phức tạp hơn lại cho kết quả kém hơn nhiều.
+Kết quả cho thấy mô hình đơn giản nhất (TF-IDF + Logistic Regression) đạt hiệu suất tốt nhất với **83.36% accuracy**, trong khi các mô hình LSTM phức tạp hơn lại cho kết quả kém hơn nhiều.
 
 **Phân tích nguyên nhân:**
 
@@ -55,9 +55,8 @@ Mục đích chính là hiểu rõ ưu điểm của các mô hình chuỗi (RNN
      - Batch size quá lớn (256) khiến gradient không ổn định
      - Embedding layer chưa được khởi tạo tốt
      - Dataset quá nhỏ để học cả embedding và LSTM từ đầu
-     - Có thể có vấn đề trong quá trình training (**vanishing/exploding gradient**)
 
-**Kết luận quan trọng:**
+**Kết luận:**
 
 > **Mô hình phức tạp không phải lúc nào cũng tốt hơn!** Với dataset nhỏ và task đơn giản, các mô hình đơn giản như TF-IDF + Logistic Regression có thể hoạt động tốt hơn các deep learning models phức tạp. LSTM cần dataset lớn hơn, hyperparameter tuning cẩn thận, và pre-trained embeddings chất lượng cao để phát huy ưu thế.
 
@@ -321,7 +320,6 @@ Mục đích chính là hiểu rõ ưu điểm của các mô hình chuỗi (RNN
 - Dataset nhỏ như HWU-64
 - Không có GPU
 - Cần kết quả nhanh
-- Là người mới bắt đầu với deep learning
 
 ---
 
