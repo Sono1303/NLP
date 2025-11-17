@@ -192,17 +192,6 @@ powerful  -> ADJ    (Correct ✓)
    - Hàm dự đoán chỉ tách từ theo dấu cách, chưa xử lý tốt các trường hợp dấu câu hoặc từ ghép.
    - Nếu áp dụng cho dữ liệu thực tế, cần tích hợp tokenizer chuyên dụng hơn.
 
-### So sánh với baselines
-
-| Approach | Test Accuracy | Note |
-|----------|---------------|------|
-| **Simple RNN (ours)** | **88.28%** | Vanilla RNN, 1 layer |
-| Random baseline | ~6% | 1/17 POS tags |
-| Most frequent tag | ~13% | Always predict NOUN |
-| HMM | ~85% | Traditional approach |
-| BiLSTM | ~92-94% | SOTA RNN-based |
-| BERT-based | ~96-97% | SOTA transformer |
-
 **Nhận xét**: Mô hình đạt performance vượt HMM baseline và gần với BiLSTM, cho thấy kiến trúc đơn giản nhưng hiệu quả.
 
 ---
