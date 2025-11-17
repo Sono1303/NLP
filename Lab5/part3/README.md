@@ -60,7 +60,7 @@
 - Có dấu hiệu overfitting nhẹ (train loss tiếp tục giảm trong khi dev loss tăng nhẹ từ epoch 8-9)
 - Mô hình đạt performance tốt nhất ở epoch cuối cùng
 
-![Training History](/image/training_history.png)
+![Training History](Lab5\part3\image\training_history.png)
 *Biểu đồ Loss và Accuracy qua các epoch*
 
 ### Độ chính xác theo từng POS tag (Test set)
@@ -157,105 +157,6 @@ powerful  -> ADJ    (Correct ✓)
 
 ---
 
-## Đánh giá theo tiêu chí bài lab
-
-### Task 1: Tải và tiền xử lý dữ liệu ✓
-
-**Yêu cầu**: 
-- Viết hàm `load_conllu()` đọc file CoNLL-U
-- Xây dựng từ điển `word_to_ix` và `tag_to_ix`
-
-**Thực hiện**:
-- ✓ Hàm `load_conllu()` đọc đúng định dạng CoNLL-U (cột 2: FORM, cột 4: UPOS)
-- ✓ Xử lý đúng multi-word tokens (bỏ qua dòng có '-' hoặc '.' trong ID)
-- ✓ Tạo từ điển với special tokens: `<PAD>` (index 0), `<UNK>` (index 1)
-- ✓ Áp dụng min_freq=2 để giảm vocabulary size
-- ✓ Kết quả: 9,875 từ, 18 tags (bao gồm `<PAD>`)
-
-**Đánh giá**: Hoàn thành tốt, code clean và có xử lý đúng edge cases
-
----
-
-### Task 2: Tạo PyTorch Dataset và DataLoader ✓
-
-**Yêu cầu**:
-- Tạo lớp `POSDataset` kế thừa từ `torch.utils.data.Dataset`
-- Viết `collate_fn` để padding các câu về cùng độ dài
-- Tạo DataLoader cho train, dev, test
-
-**Thực hiện**:
-- ✓ `POSDataset` implement đầy đủ 3 methods: `__init__`, `__len__`, `__getitem__`
-- ✓ Xử lý từ OOV (out-of-vocabulary) bằng token `<UNK>`
-- ✓ `collate_fn` sử dụng `pad_sequence()` với `batch_first=True`
-- ✓ Trả về cả `lengths` để có thể sử dụng cho packed sequence (nếu cần)
-- ✓ DataLoader với batch_size=32, shuffle=True cho train
-
-**Đánh giá**: Implement chuẩn PyTorch, hiệu quả và dễ mở rộng
-
----
-
-### Task 3: Xây dựng mô hình RNN ✓
-
-**Yêu cầu**:
-- Xây dựng model gồm 3 lớp: `nn.Embedding` → `nn.RNN` → `nn.Linear`
-- Chú ý dimension của các tensor
-
-**Thực hiện**:
-- ✓ Architecture đúng: Embedding (9875→100) → RNN (100→128) → Linear (128→18)
-- ✓ Sử dụng `padding_idx=0` trong Embedding layer
-- ✓ RNN với `batch_first=True` để dễ xử lý
-- ✓ Tổng số tham số: 1,019,262 (hợp lý cho bài toán này)
-
-**Đánh giá**: Kiến trúc đơn giản nhưng hiệu quả, phù hợp với yêu cầu bài lab
-
----
-
-### Task 4: Huấn luyện mô hình ✓
-
-**Yêu cầu**:
-- Sử dụng `CrossEntropyLoss` với `ignore_index` cho padding
-- Thực hiện 5 bước: zero grad → forward → loss → backward → update
-- In loss sau mỗi epoch
-
-**Thực hiện**:
-- ✓ Loss function: `CrossEntropyLoss(ignore_index=0)` - đúng cách xử lý padding
-- ✓ Optimizer: Adam với lr=0.001
-- ✓ Training loop đầy đủ 5 bước chuẩn
-- ✓ Sử dụng `tqdm` để hiển thị progress bar
-- ✓ Lưu best model dựa trên dev accuracy
-- ✓ Train 10 epochs, loss giảm đều từ 1.0894 → 0.1630
-
-**Đánh giá**: Training loop chuẩn chỉnh, có early stopping logic
-
----
-
-### Task 5: Đánh giá mô hình ✓
-
-**Yêu cầu**:
-- Viết hàm `evaluate()` tính accuracy
-- Chỉ tính accuracy trên token không phải padding
-- Viết hàm `predict_sentence()` cho câu mới
-
-**Thực hiện**:
-- ✓ Hàm `evaluate()` với `torch.no_grad()` và `model.eval()`
-- ✓ Tính accuracy đúng: exclude padding tokens bằng mask
-- ✓ Test accuracy: **88.28%** - kết quả tốt
-- ✓ Hàm `predict_sentence()` xử lý câu mới, tokenize và convert sang indices
-- ✓ Test trên 5 câu ví dụ, cho kết quả hợp lý
-
-**Đánh giá**: Evaluation hoàn chỉnh, có thể predict trên dữ liệu mới
-
----
-
-### Bonus: Phân tích chi tiết ✓
-
-**Thực hiện thêm**:
-- ✓ Tính per-tag accuracy để hiểu rõ performance từng POS
-- ✓ Visualization: Plot training/dev loss và accuracy curves
-- ✓ Save model với `torch.save()` bao gồm cả vocabularies
-- ✓ Phân tích lỗi: Nhận diện các POS khó học (X, SCONJ, NUM)
-
----
 
 ## Nhận xét và đánh giá
 
