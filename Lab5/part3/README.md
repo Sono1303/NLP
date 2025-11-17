@@ -60,7 +60,7 @@
 - Có dấu hiệu overfitting nhẹ (train loss tiếp tục giảm trong khi dev loss tăng nhẹ từ epoch 8-9)
 - Mô hình đạt performance tốt nhất ở epoch cuối cùng
 
-![Training History](Lab5/part3/image/training_history.png)
+![Training History](/image/training_history.png)
 *Biểu đồ Loss và Accuracy qua các epoch*
 
 ### Độ chính xác theo từng POS tag (Test set)
