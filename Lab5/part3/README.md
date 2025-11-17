@@ -160,48 +160,37 @@ powerful  -> ADJ    (Correct ✓)
 
 ## Nhận xét và đánh giá
 
+
 ### Ưu điểm
+1. **Hiệu quả mô hình**
+   - Độ chính xác trên tập test đạt 88.28%, phù hợp với kỳ vọng cho một mô hình RNN cơ bản.
+   - Mô hình hoạt động ổn định trên các POS phổ biến như NOUN, VERB, ADJ, thể hiện khả năng học tốt các pattern chính trong dữ liệu.
 
-1. **Code quality cao**
-   - Cấu trúc rõ ràng, có docstring đầy đủ
-   - Follow best practices của PyTorch
-   - Dễ đọc, dễ maintain và mở rộng
+2. **Xử lý dữ liệu và batching**
+   - Đã xử lý đúng định dạng CoNLL-U, thêm các token đặc biệt như `<PAD>`, `<UNK>` để đảm bảo tính tổng quát.
+   - Việc padding và batching giúp mô hình huấn luyện hiệu quả hơn trên GPU.
 
-2. **Performance tốt**
-   - Test accuracy 88.28% là kết quả khá tốt cho mô hình RNN vanilla
-   - Comparable với các baseline trong nghiên cứu POS tagging
-   - Performance tốt trên các POS phổ biến (NOUN, VERB, ADJ)
+3. **Quá trình huấn luyện ổn định**
+   - Loss giảm đều qua các epoch, không xuất hiện hiện tượng bất thường.
+   - Accuracy trên tập dev tăng dần, mô hình lưu lại checkpoint tốt nhất dựa trên dev accuracy.
 
-3. **Xử lý data đúng đắn**
-   - Parse CoNLL-U format chính xác
-   - Xử lý special tokens (`<PAD>`, `<UNK>`) đúng cách
-   - Padding và batching hiệu quả
+### Hạn chế
 
-4. **Training stable**
-   - Loss giảm đều, không có sudden spike
-   - Accuracy tăng đều qua các epoch
-   - Có save best model mechanism
+1. **Dấu hiệu overfitting nhẹ**
+   - Ở các epoch cuối, train loss tiếp tục giảm nhưng dev loss có xu hướng dao động nhẹ, cho thấy mô hình bắt đầu học quá kỹ dữ liệu train.
+   - Chưa áp dụng các kỹ thuật regularization như dropout hoặc weight decay.
 
-### Nhược điểm và hạn chế
+2. **Độ chính xác thấp với các POS hiếm**
+   - Các nhãn như X, SCONJ, NUM có accuracy thấp do số lượng mẫu ít, mô hình khó học được pattern đặc trưng.
+   - Chưa có giải pháp tăng cường dữ liệu hoặc cân bằng class.
 
-1. **Overfitting nhẹ**
-   - Train loss tiếp tục giảm trong khi dev loss tăng nhẹ từ epoch 8-9
-   - Có thể cải thiện bằng dropout, weight decay
+3. **Giới hạn về ngữ cảnh**
+   - RNN một chiều chưa tận dụng được thông tin hai chiều trong câu, dẫn đến nhầm lẫn ở các từ phụ thuộc ngữ cảnh rộng.
+   - Các trường hợp long-range dependencies vẫn còn bị nhầm lẫn.
 
-2. **Performance thấp trên rare POS tags**
-   - X (15.44%), SCONJ (52.60%), NUM (67.71%)
-   - Nguyên nhân: Ít dữ liệu train cho các class này
-   - Giải pháp: Class weighting, data augmentation
-
-3. **Context limitation**
-   - RNN vanilla có vấn đề với long-range dependencies
-   - Không capture được bidirectional context
-   - LSTM hoặc Bidirectional RNN sẽ tốt hơn
-
-4. **Word-level tokenization đơn giản**
-   - Hàm `predict_sentence()` chỉ split by space
-   - Không xử lý punctuation tách rời
-   - Production cần tokenizer tốt hơn (spaCy, NLTK)
+4. **Tokenization đơn giản**
+   - Hàm dự đoán chỉ tách từ theo dấu cách, chưa xử lý tốt các trường hợp dấu câu hoặc từ ghép.
+   - Nếu áp dụng cho dữ liệu thực tế, cần tích hợp tokenizer chuyên dụng hơn.
 
 ### So sánh với baselines
 
@@ -218,58 +207,6 @@ powerful  -> ADJ    (Correct ✓)
 
 ---
 
-## Hướng cải thiện
-
-### 1. Nâng cấp kiến trúc (Expected: +3-5% accuracy)
-- **LSTM thay vì RNN**: Giải quyết vanishing gradient, học long-term dependencies tốt hơn
-- **Bidirectional RNN**: Capture context từ cả 2 hướng
-- **Multi-layer RNN**: Stack 2-3 layers để học features phức tạp hơn
-
-```python
-self.rnn = nn.LSTM(
-    embedding_dim,
-    hidden_dim,
-    num_layers=2,
-    batch_first=True,
-    bidirectional=True,
-    dropout=0.3
-)
-self.fc = nn.Linear(hidden_dim * 2, tagset_size)  # *2 for bidirectional
-```
-
-### 2. Regularization (Expected: +1-2% accuracy)
-- **Dropout**: Thêm dropout=0.3-0.5 vào RNN và before Linear layer
-- **Weight decay**: Thêm `weight_decay=1e-5` vào optimizer
-- **Early stopping**: Stop khi dev accuracy không tăng sau 3 epochs
-
-### 3. Pretrained embeddings (Expected: +2-3% accuracy)
-- Sử dụng GloVe hoặc FastText embeddings
-- Fine-tune embeddings trong quá trình train
-
-```python
-# Load pretrained embeddings
-pretrained = load_glove_embeddings('glove.6B.100d.txt')
-self.embedding.weight.data.copy_(pretrained)
-self.embedding.weight.requires_grad = True  # Fine-tune
-```
-
-### 4. Data augmentation
-- **Synonym replacement**: Thay từ bằng synonym giữ nguyên POS
-- **Context-aware augmentation**: Dùng masked language model
-- **Oversampling rare tags**: Tăng cường X, SCONJ, NUM
-
-### 5. Advanced techniques (Expected: +5-8% accuracy)
-- **Character-level embeddings**: Xử lý OOV tốt hơn
-- **CRF layer**: Thêm CRF on top của RNN để model dependencies giữa tags
-- **Attention mechanism**: Focus vào từ quan trọng
-
-### 6. Hyperparameter tuning
-- Hidden dim: Thử 256, 512
-- Learning rate: Thử 0.0001, 0.0005, 0.002
-- Batch size: Thử 16, 64, 128
-- Embedding dim: Thử 200, 300
-
----
 
 ## Kết luận
 
