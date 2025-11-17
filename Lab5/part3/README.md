@@ -273,16 +273,6 @@ self.embedding.weight.requires_grad = True  # Fine-tune
 
 ## Kết luận
 
-Bài lab đã hoàn thành đầy đủ các yêu cầu và đạt kết quả tốt:
-
-**Tiêu chí hoàn thành**:
-- ✓ Task 1: Tải và xử lý CoNLL-U format
-- ✓ Task 2: PyTorch Dataset và DataLoader với padding
-- ✓ Task 3: Xây dựng RNN architecture
-- ✓ Task 4: Training loop với 5 bước chuẩn
-- ✓ Task 5: Evaluation và prediction function
-- ✓ Bonus: Visualization, per-tag analysis, model saving
-
 **Kết quả cuối cùng**:
 - **Best Dev Accuracy**: 88.61%
 - **Test Accuracy**: 88.28%
@@ -291,7 +281,3 @@ Bài lab đã hoàn thành đầy đủ các yêu cầu và đạt kết quả t
 **Đánh giá tổng thể**: 
 - Code chất lượng cao, follow best practices
 - Performance tốt cho mô hình baseline
-- Có nhiều hướng cải thiện rõ ràng
-- Phù hợp với mục tiêu học tập về RNN và sequence labeling
-
-Mô hình này có thể được sử dụng làm baseline cho các bài toán sequence labeling khác như Named Entity Recognition (NER) hoặc chunking.
