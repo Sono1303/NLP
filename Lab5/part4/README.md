@@ -61,7 +61,9 @@ Trong bài thực hành này, mô hình RNN được xây dựng để nhận d�
 | B-ORG  | 1,661    | 52.50%    |
 | I-ORG  | 835      | 60.60%    |
 | B-MISC | 702      | 57.83%    |
-| I-MISC | 216      | 51.85%    |### Kết quả entity-level
+| I-MISC | 216      | 51.85%    |
+
+### Kết quả entity-level
 
 Đánh giá theo từng loại thực thể (precision, recall, F1-score):
 
@@ -72,7 +74,9 @@ Trong bài thực hành này, mô hình RNN được xây dựng để nhận d�
 | ORG    | 62.08%    | 48.40% | 54.40%   | 1,661   |
 | MISC   | 63.65%    | 52.14% | 57.32%   | 702     |
 
-**Overall F1-Score**: 59.85%## Phân tích kết quả
+**Overall F1-Score**: 59.85%
+
+## Phân tích kết quả
 
 ### Token-level accuracy
 
@@ -99,7 +103,9 @@ Khi đánh giá theo toàn bộ thực thể (không phải từng token), Overa
 
 ## Ví dụ dự đoán
 
-### Ví dụ 1: Câu mới
+### Các ví dụ thực tế
+
+#### Ví dụ 1: Thực thể Việt Nam
 **Input**: "VNU University is located in Hanoi"
 
 | Token      | Predicted Tag |
@@ -108,28 +114,113 @@ Khi đánh giá theo toàn bộ thực thể (không phải từng token), Overa
 | University | I-ORG         |
 | Hanoi      | B-PER         |
 
-Mô hình nhận dạng đúng "VNU University" là tổ chức, nhưng nhầm lẫn "Hanoi" thành tên người (B-PER) thay vì địa điểm.
+Mô hình nhận dạng đúng "VNU University" là tổ chức  
+Nhầm lẫn "Hanoi" thành tên người (B-PER) thay vì địa điểm
 
-### Ví dụ 2: Từ tập test (đúng hoàn toàn)
+---
+
+**Input**: "Nguyen Huu Thang works at FPT Corporation in Ho Chi Minh City"
+
+| Token       | Predicted Tag |
+|-------------|---------------|
+| Nguyen      | B-PER         |
+| Huu         | I-PER         |
+| Thang       | I-PER         |
+| Corporation | I-ORG         |
+| Chi         | I-PER         |
+| City        | I-ORG         |
+
+Nhận dạng đúng "Nguyen Huu Thang" là người  
+Bỏ lỡ "FPT" (chỉ nhận "Corporation")  
+Phân đoạn sai "Ho Chi Minh City"
+
+#### Ví dụ 2: Công ty công nghệ
+**Input**: "Apple Inc. was founded by Steve Jobs in California"
+
+| Token      | Predicted Tag |
+|------------|---------------|
+| Apple      | B-ORG         |
+| Inc.       | I-ORG         |
+| Steve      | B-PER         |
+| Jobs       | I-PER         |
+| California | B-LOC         |
+
+Nhận dạng hoàn hảo cả 3 thực thể: công ty, người, địa điểm
+
+---
+
+**Input**: "Microsoft headquarters is in Redmond Washington"
+
+| Token      | Predicted Tag |
+|------------|---------------|
+| Microsoft  | B-ORG         |
+| Redmond    | B-LOC         |
+| Washington | B-LOC         |
+
+Nhận dạng đúng công ty và 2 địa điểm  
+Tuy nhiên "Redmond Washington" nên là một thực thể liên tục
+
+#### Ví dụ 3: Trường hợp nhầm lẫn
+**Input**: "The Amazon river flows through Brazil"
+
+| Token  | Predicted Tag |
+|--------|---------------|
+| Amazon | B-ORG         |
+| Brazil | B-LOC         |
+
+Nhầm "Amazon river" (địa điểm) thành tổ chức (công ty Amazon)  
+Nhận dạng đúng "Brazil" là địa điểm
+
+---
+
+**Input**: "Tesla and SpaceX are both led by Elon Musk"
+
+| Token  | Predicted Tag |
+|--------|---------------|
+| Tesla  | B-PER         |
+| SpaceX | B-PER         |
+| Elon   | B-PER         |
+| Musk   | I-PER         |
+
+Nhầm "Tesla" và "SpaceX" (công ty) thành tên người  
+Nhận dạng đúng "Elon Musk" là người
+
+#### Ví dụ 4: Từ tập test (đúng hoàn toàn)
 **Sentence**: "Wasim Akram b Harris 4"
 
-| Token   | True Tag | Predicted Tag | Status |
-|---------|----------|---------------|--------|
-| Wasim   | B-PER    | B-PER         | ✓      |
-| Akram   | I-PER    | I-PER         | ✓      |
-| Harris  | B-PER    | B-PER         | ✓      |
+| Token  | True Tag | Predicted Tag | Status |
+|--------|----------|---------------|--------|
+| Wasim  | B-PER    | B-PER         | ✓      |
+| Akram  | I-PER    | I-PER         | ✓      |
+| Harris | B-PER    | B-PER         | ✓      |
 
-### Ví dụ 3: Trường hợp phức tạp (lỗi)
+Nhận dạng chính xác 2 tên người
+
+#### Ví dụ 5: Trường hợp phức tạp (nhiều lỗi)
 **Sentence**: "New York Commodities Desk , 212-859-1640"
 
-| Token       | True Tag | Predicted Tag | Status |
-|-------------|----------|---------------|--------|
-| New         | B-ORG    | B-LOC         | ✗      |
-| York        | I-ORG    | I-LOC         | ✗      |
-| Commodities | I-ORG    | O             | ✗      |
-| 212-859-1640| O        | B-PER         | ✗      |
+| Token        | True Tag | Predicted Tag | Status |
+|--------------|----------|---------------|--------|
+| New          | B-ORG    | B-LOC         | ✗      |
+| York         | I-ORG    | I-LOC         | ✗      |
+| Commodities  | I-ORG    | O             | ✗      |
+| 212-859-1640 | O        | B-PER         | ✗      |
 
-Mô hình nhầm "New York Commodities" (tổ chức) thành địa điểm và bỏ sót "Commodities". Số điện thoại bị nhận nhầm là tên người.
+Nhầm "New York Commodities Desk" (tổ chức) thành địa điểm và bỏ sót phần cuối  
+Số điện thoại bị nhận nhầm là tên người
+
+### Nhận xét từ các ví dụ
+
+**Điểm mạnh**:
+- Nhận dạng tốt các thực thể phổ biến: Steve Jobs, California, Microsoft
+- Phân đoạn chính xác các tên người nhiều từ: "Nguyen Huu Thang", "Elon Musk"
+- Precision cao với các công ty công nghệ nổi tiếng: Apple Inc., Google
+
+**Hạn chế**:
+- **Nhầm lẫn đa nghĩa**: Amazon (sông vs công ty), Tesla (người vs công ty)
+- **Địa điểm ít gặp**: Hanoi, Paris bị nhận nhầm khi đứng đơn lẻ
+- **Thực thể nhiều từ**: "Ho Chi Minh City", "New York Commodities" bị phân đoạn sai
+- **Pattern không chuẩn**: Số điện thoại, các từ viết tắt gây nhầm lẫn
 
 ## Đánh giá
 
