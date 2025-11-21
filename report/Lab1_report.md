@@ -1,6 +1,6 @@
 # Báo cáo Lab 1 & Lab 2
 
-## File/folder code sử dụng trong báo cáo
+## Source code sử dụng trong báo cáo
 - [Lab1/src/core/interfaces.py](../Lab1/src/core/interfaces.py): Interface Tokenizer, Vectorizer
 - [Lab1/src/preprocessing/simple_tokenizer.py](../Lab1/src/preprocessing/simple_tokenizer.py): SimpleTokenizer
 - [Lab1/src/preprocessing/regex_tokenizer.py](../Lab1/src/preprocessing/regex_tokenizer.py): RegexTokenizer
