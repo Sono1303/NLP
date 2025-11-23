@@ -1,12 +1,18 @@
+
 # Lab 5 Part 4: RNN for Named Entity Recognition
 
-## Mục tiêu
+## 1. Source code sử dụng cho báo cáo
+- [lab5_rnn_for_ner.ipynb](lab5_rnn_for_ner.ipynb): Notebook NER với RNN
+- [best_ner_model.pt](best_ner_model.pt): Trained model
+- [data/conll2003/](data/conll2003/): Dataset sử dụng
+
+## 2. Mục tiêu
 
 Trong bài thực hành này, mô hình RNN được xây dựng để nhận dạng các thực thể tên (Named Entity Recognition - NER) từ văn bản. Bộ dữ liệu CoNLL-2003 được sử dụng với hệ thống gán nhãn IOB (Inside, Outside, Beginning) để phân loại 4 loại thực thể: người (PER), địa điểm (LOC), tổ chức (ORG) và khác (MISC).
 
-## Cấu hình thực nghiệm
+## 3. Cấu hình thực nghiệm
 
-### Dữ liệu
+### 3.1 Dữ liệu
 
 - **Bộ dữ liệu**: CoNLL-2003
 - **Training**: 14,041 câu
@@ -15,7 +21,7 @@ Trong bài thực hành này, mô hình RNN được xây dựng để nhận d�
 - **Từ vựng**: 23,625 từ duy nhất
 - **Số nhãn NER**: 9 nhãn (O, B-PER, I-PER, B-LOC, I-LOC, B-ORG, I-ORG, B-MISC, I-MISC)
 
-### Mô hình
+### 3.2 Mô hình
 
 **Kiến trúc**: SimpleRNN với 3 lớp chính
 
@@ -24,7 +30,7 @@ Trong bài thực hành này, mô hình RNN được xây dựng để nhận d�
 - **Linear layer**: ánh xạ sang 9 nhãn NER
 - **Tổng số tham số**: 2,393,101
 
-### Huấn luyện
+### 3.3 Huấn luyện
 
 - **Optimizer**: Adam với learning rate 0.001
 - **Loss function**: CrossEntropyLoss (ignore_index=-1 cho padding)
@@ -32,9 +38,9 @@ Trong bài thực hành này, mô hình RNN được xây dựng để nhận d�
 - **Số epochs**: 5
 - **Early stopping**: Lưu mô hình tốt nhất dựa trên validation accuracy
 
-## Kết quả
+## 4. Kết quả
 
-### Độ chính xác theo epoch
+### 4.1 Độ chính xác theo epoch
 
 | Epoch | Train Loss | Validation Accuracy |
 |-------|------------|---------------------|
@@ -44,12 +50,12 @@ Trong bài thực hành này, mô hình RNN được xây dựng để nhận d�
 | 4     | 0.1833     | 92.25%              |
 | 5     | 0.1352     | 93.11%              |
 
-### Hiệu suất trên tập test
+### 4.2 Hiệu suất trên tập test
 
 - **Test Accuracy**: 90.41%
 - **Best Validation Accuracy**: 93.11%
 
-### Độ chính xác theo từng nhãn
+### 4.3 Độ chính xác theo từng nhãn
 
 | Nhãn   | Số lượng | Accuracy  |
 |--------|----------|-----------|  
@@ -63,7 +69,7 @@ Trong bài thực hành này, mô hình RNN được xây dựng để nhận d�
 | B-MISC | 702      | 57.83%    |
 | I-MISC | 216      | 51.85%    |
 
-### Kết quả entity-level
+### 4.4 Kết quả entity-level
 
 Đánh giá theo từng loại thực thể (precision, recall, F1-score):
 
@@ -76,9 +82,9 @@ Trong bài thực hành này, mô hình RNN được xây dựng để nhận d�
 
 **Overall F1-Score**: 59.85%
 
-## Phân tích kết quả
+## 5. Phân tích kết quả
 
-### Token-level accuracy
+### 5.1 Token-level accuracy
 
 Mô hình đạt accuracy 90.41% khi đánh giá theo từng token. Nhãn "O" (không phải thực thể) có độ chính xác rất cao (95.51%), cho thấy mô hình phân biệt rất tốt giữa token thuộc và không thuộc thực thể.
 
@@ -87,7 +93,7 @@ Mô hình đạt accuracy 90.41% khi đánh giá theo từng token. Nhãn "O" (k
 - B-LOC và B-PER đạt khoảng 70-74%, khá tốt cho việc nhận dạng bắt đầu thực thể
 - B-ORG và I-MISC có accuracy thấp nhất (~52%), cho thấy khó khăn trong việc phân loại tổ chức và thực thể khác
 
-### Entity-level F1-score
+### 5.2 Entity-level F1-score
 
 Khi đánh giá theo toàn bộ thực thể (không phải từng token), Overall F1 là 59.85%. Khoảng cách giữa token-level accuracy (90.41%) và entity-level F1 (59.85%) cho thấy mô hình còn gặp khó khăn trong việc nhận dạng đầy đủ các thực thể có nhiều token.
 
@@ -101,9 +107,9 @@ Khi đánh giá theo toàn bộ thực thể (không phải từng token), Overa
 
 - **PER (Person)**: F1 là 52.70% với precision 43.21% và recall 67.53%. Pattern đặc biệt - recall cao nghĩa là mô hình nhận dạng được nhiều tên người, nhưng precision thấp cho thấy có nhiều false positives (dự đoán nhầm tokens khác là tên người).
 
-## Ví dụ dự đoán
+## 6. Ví dụ dự đoán
 
-### Các ví dụ thực tế
+### 6.1 Các ví dụ thực tế
 
 #### Ví dụ 1: Thực thể Việt Nam
 **Input**: "VNU University is located in Hanoi"
@@ -116,8 +122,6 @@ Khi đánh giá theo toàn bộ thực thể (không phải từng token), Overa
 
 Mô hình nhận dạng đúng "VNU University" là tổ chức  
 Nhầm lẫn "Hanoi" thành tên người (B-PER) thay vì địa điểm
-
----
 
 **Input**: "Nguyen Huu Thang works at FPT Corporation in Ho Chi Minh City"
 
@@ -222,9 +226,9 @@ Số điện thoại bị nhận nhầm là tên người
 - **Thực thể nhiều từ**: "Ho Chi Minh City", "New York Commodities" bị phân đoạn sai
 - **Pattern không chuẩn**: Số điện thoại, các từ viết tắt gây nhầm lẫn
 
-## Đánh giá
+## 7. Đánh giá
 
-### Điểm mạnh
+### 7.1 Điểm mạnh
 
 **Token classification accuracy**: Mô hình đạt 90.41% accuracy trên tập test, cho thấy khả năng phân loại tốt ở mức token. Accuracy tăng đều qua các epoch từ 87.28% lên 93.11% trên validation set, thể hiện quá trình học ổn định không có dấu hiệu overfitting.
 
@@ -232,7 +236,7 @@ Số điện thoại bị nhận nhầm là tên người
 
 **Phân biệt O và thực thể**: Nhãn "O" đạt 95.51% accuracy, mô hình phân biệt rất tốt giữa các token thuộc và không thuộc thực thể. Đây là nền tảng quan trọng cho bài toán NER.
 
-### Hạn chế
+### 7.2 Hạn chế
 
 **Entity-level F1 chưa cao**: Overall F1 đạt 59.85%, vẫn thấp hơn nhiều so với token-level accuracy. Nguyên nhân chính là mô hình gặp khó khăn trong việc nhận dạng đầy đủ các thực thể nhiều token.
 
@@ -240,7 +244,7 @@ Số điện thoại bị nhận nhầm là tên người
 
 **Nhầm lẫn giữa các loại**: Từ các ví dụ thực tế, mô hình hay nhầm lẫn giữa các loại thực thể (ví dụ: ORG thành LOC, số điện thoại thành PER). Điều này do thiếu context đầy đủ từ kiến trúc RNN đơn giản.
 
-### So sánh với baseline
+### 7.3 So sánh với baseline
 
 CoNLL-2003 là benchmark tiêu chuẩn cho NER. Các mô hình state-of-the-art đạt F1-score trên 90%, trong khi mô hình SimpleRNN của chúng ta đạt 59.85%. Đây là kết quả khá tốt cho một mô hình RNN cơ bản không sử dụng:
 - Pre-trained embeddings (Word2Vec, GloVe, BERT)
@@ -248,7 +252,7 @@ CoNLL-2003 là benchmark tiêu chuẩn cho NER. Các mô hình state-of-the-art 
 - Conditional Random Fields (CRF) layer
 - Character-level embeddings
 
-### Hướng cải thiện
+### 7.4 Hướng cải thiện
 
 Để nâng cao hiệu suất, có thể:
 1. Sử dụng LSTM/GRU thay vì RNN đơn giản để giữ thông tin dài hạn tốt hơn
@@ -258,8 +262,13 @@ CoNLL-2003 là benchmark tiêu chuẩn cho NER. Các mô hình state-of-the-art 
 5. Tăng số epochs và điều chỉnh learning rate schedule
 6. Áp dụng data augmentation cho các loại thực thể có recall thấp
 
-## Kết luận
+## 8. Kết luận
 
 Bài thực hành đã xây dựng thành công mô hình RNN cho bài toán Named Entity Recognition trên bộ dữ liệu CoNLL-2003. Mô hình đạt 90.41% token-level accuracy và 59.85% entity-level F1-score, thể hiện khả năng tốt trong việc nhận dạng thực thể tên.
 
-Kết quả cho thấy RNN đơn giản có thể phân loại token tốt nhưng còn hạn chế trong việc nhận dạng đầy đủ các thực thể phức tạp. Đặc biệt, pattern của PER có precision thấp cho thấy cần cải thiện khả năng phân biệt giữa các loại thực thể. Kiến trúc này phù hợp để hiểu cơ bản về NER, nhưng cần nâng cấp lên LSTM/Bi-LSTM hoặc Transformer để đạt hiệu suất cao hơn trong ứng dụng thực tế.
+
+## 9. Tài liệu tham khảo
+- [PyTorch Documentation](https://pytorch.org/docs/stable/index.html)
+- [CoNLL-2003 Dataset](https://www.clips.uantwerpen.be/conll2003/ner/)
+- [Adam Optimizer](https://arxiv.org/abs/1412.6980)
+- [CrossEntropyLoss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html)
