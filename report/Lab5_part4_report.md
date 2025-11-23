@@ -123,9 +123,6 @@ Khi đánh giá theo toàn bộ thực thể (không phải từng token), Overa
 Mô hình nhận dạng đúng "VNU University" là tổ chức  
 Nhầm lẫn "Hanoi" thành tên người (B-PER) thay vì địa điểm
 
-![Training History](../Lab5/part4/image/training_history.png)
-*Biểu đồ Loss và Accuracy qua các epoch*
-
 **Input**: "Nguyen Huu Thang works at FPT Corporation in Ho Chi Minh City"
 
 | Token       | Predicted Tag |
