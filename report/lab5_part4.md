@@ -6,28 +6,6 @@
 - [best_ner_model.pt](../Lab5/part4/best_ner_model.pt): Trained model
 - [data/conll2003/](../Lab5/part4/data/conll2003/): Dataset sử dụng
 
-## 1.1. Dataset sử dụng
-
-**Tên dataset**: CoNLL-2003 Named Entity Recognition
-
-**Mô tả**: Dataset chuẩn cho bài toán NER, chứa các câu tiếng Anh được gán nhãn thực thể tên.
-
-**Cấu trúc dữ liệu**:
-- **Format**: CoNLL format (tab-separated)
-- **Số lượng**: 14,041 câu (train), 3,250 câu (val), 3,453 câu (test)
-- **Từ vựng**: 23,625 từ duy nhất
-- **Các cột**: Token, POS tag, Chunk tag, NER tag
-- **NER labels**: 9 nhãn với IOB format
-  - O: Outside (không phải entity)
-  - B-PER, I-PER: Person (người)
-  - B-LOC, I-LOC: Location (địa điểm)
-  - B-ORG, I-ORG: Organization (tổ chức)
-  - B-MISC, I-MISC: Miscellaneous (khác)
-
-**Nguồn**: https://www.clips.uantwerpen.be/conll2003/ner/
-
-**Lưu ý**: Dataset không được commit lên GitHub. Xem [data/README.md](../data/README.md).
-
 ## 2. Mục tiêu
 
 Trong bài thực hành này, mô hình RNN được xây dựng để nhận dạng các thực thể tên (Named Entity Recognition - NER) từ văn bản. Bộ dữ liệu CoNLL-2003 được sử dụng với hệ thống gán nhãn IOB (Inside, Outside, Beginning) để phân loại 4 loại thực thể: người (PER), địa điểm (LOC), tổ chức (ORG) và khác (MISC).

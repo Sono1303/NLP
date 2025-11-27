@@ -7,6 +7,27 @@
 - [Lab2/spark_labs/log/](../Lab2/spark_labs/log/): Log kết quả
 - [Lab2/spark_labs/results/](../Lab2/spark_labs/results/): File kết quả xử lý
 
+## Dataset sử dụng
+
+**Tên dataset**: C4 (Colossal Clean Crawled Corpus) - Subset 30K
+
+**Mô tả**: Corpus tiếng Anh lớn được thu thập từ Common Crawl, đã được làm sạch và lọc.
+
+**Cấu trúc dữ liệu**:
+- **Format**: JSON (newline-delimited)
+- **Số lượng**: 30,000 records (subset)
+- **Các trường**:
+  - `text`: Nội dung văn bản (string)
+  - `timestamp`: Thời gian crawl (string)
+  - `url`: URL nguồn (string)
+- **Kích thước**: ~50-100 MB (subset 30K)
+
+**Nguồn**: https://github.com/allenai/c4-documentation
+
+**File sử dụng**: `c4-train.00000-of-01024-30K.json`
+
+**Lưu ý**: Dataset không được commit lên GitHub. Xem [data/README.md](../data/README.md) để tải.
+
 
 ## 1. CÁC BƯỚC THỰC HIỆN
 

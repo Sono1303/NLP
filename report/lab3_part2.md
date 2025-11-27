@@ -10,6 +10,25 @@
 - [Lab3/results/](../Lab3/results/): Kết quả test, training
 - [Lab3/data/](../Lab3/data/): Dữ liệu GloVe, UD English-EWT, C4
 
+### 1.1. Datasets sử dụng
+
+**Dataset 1**: GloVe Pre-trained Vectors (giống Lab 3 Part 1)
+- **File**: `glove.6B.300d.txt`, `wiki-news-300d-1M-subword.vec`
+- **Kích thước vector**: 300d
+- Xem [data/README.md](../data/README.md) để biết chi tiết
+
+**Dataset 2**: UD English-EWT (training Word2Vec)
+- **Format**: CoNLL-U
+- **Số lượng**: ~12,544 câu (train set)
+- Sử dụng cho custom Word2Vec training
+
+**Dataset 3**: C4 Subset (Spark Word2Vec)
+- **Format**: JSON
+- **Số lượng**: 30,000 documents
+- Sử dụng cho Spark MLlib Word2Vec training
+
+**Lưu ý**: Tất cả datasets không được commit lên GitHub. Xem [data/README.md](../data/README.md).
+
 ### 2. Yêu cầu hệ thống
 - Python 3.8+
 - Jupyter Notebook

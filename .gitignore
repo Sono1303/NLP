@@ -1,0 +1,86 @@
+# Dataset lớn - KHÔNG push lên GitHub
+*.csv
+*.json
+*.txt
+*.conllu
+*.vec
+*.bin
+
+# Ngoại lệ: Cho phép README và metadata files
+!README.md
+!requirements.txt
+!*.md
+
+# Model files và checkpoints
+*.pt
+*.pth
+*.h5
+*.pkl
+*.pickle
+*.model
+*.weights
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Large data directories (chỉ cho phép README.md bên trong)
+Lab*/data/**/*
+!Lab*/data/**/README.md
+Lab*/results/**/*.txt
+Lab*/results/**/*.model
+Lab*/results/**/*.pt
+
+data/**/*
+!data/README.md
+!data/**/README.md
+
+# Spark logs
+metastore_db/
+spark-warehouse/
+derby.log
+
+# Các file tạm
+*.tmp
+*.bak
+*.cache

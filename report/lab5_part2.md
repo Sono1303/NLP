@@ -3,26 +3,7 @@
 
 ## 1. Source code sử dụng cho báo cáo
 - [lab5_rnn_text_classification.ipynb](../Lab5/part2/lab5_rnn_text_classification.ipynb): Notebook thực nghiệm RNN/LSTM
-- [data/](../Lab5/data/): Các bộ dữ liệu
-
-## 1.1. Dataset sử dụng
-
-**Tên dataset**: HWU-64 (Intent Classification Dataset)
-
-**Mô tả**: Dataset cho bài toán phân loại intent (y định của người dùng), chứa các câu truy vấn ngắn gọn.
-
-**Cấu trúc dữ liệu**:
-- **Format**: CSV/Text
-- **Số lượng**: ~25,716 samples
-- **Các cột**:
-  - `text`: Câu truy vấn (string)
-  - `label`: Intent class - 64 loại khác nhau (string/integer)
-- **Phân chia**: Train/Val/Test
-- **Độ dài trung bình**: 5-15 từ/câu
-
-**Nguồn**: HWU-64 Intent Classification Dataset
-
-**Lưu ý**: Dataset không được commit lên GitHub. Xem [data/README.md](../data/README.md) để tải.
+- [data/](../Lab5/data/): Các bộ dữ liệu 
 
 ## 2. Mục tiêu Lab
 

@@ -6,6 +6,22 @@
 - [pos_tagging_model.pt](../Lab5/part3/pos_tagging_model.pt): Trained model
 - [data/UD_English-EWT/](../Lab3/data/UD_English-EWT/): Dataset sử dụng
 
+## 1.1. Dataset sử dụng
+
+**Tên dataset**: Universal Dependencies English-EWT (UD_English-EWT)
+
+**Mô tả**: Corpus tiếng Anh được gán nhãn ngữ pháp (POS tags, dependency parsing).
+
+**Cấu trúc dữ liệu**:
+- **Format**: CoNLL-U
+- **Số lượng**: 12,544 câu (train), 2,001 câu (dev), 2,077 câu (test)
+- **Các cột chính**: ID, FORM (từ), LEMMA, UPOS (Universal POS tag), XPOS, HEAD, DEPREL
+- **Số POS tags**: 17 loại (NOUN, VERB, PRON, ADJ, ADV, ADP, DET, AUX, PROPN, PART, CCONJ, SCONJ, NUM, PUNCT, INTJ, SYM, X)
+
+**Nguồn**: https://universaldependencies.org/
+
+**Lưu ý**: Dataset không được commit lên GitHub. Xem [data/README.md](../data/README.md).
+
 ## 2. Thông tin chung
 
 **Mô tả**: Xây dựng mô hình RNN đơn giản để gán nhãn Part-of-Speech (POS) cho từng từ trong câu sử dụng PyTorch.

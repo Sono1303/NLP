@@ -10,6 +10,28 @@
 - [Lab1/test/lab2_test.py](../Lab1/test/lab2_test.py): Test CountVectorizer
 - [Lab1/UD_English-EWT/](../Lab1/UD_English-EWT/): Dataset tiếng Anh
 
+## Dataset sử dụng
+
+**Tên dataset**: Universal Dependencies English-EWT (UD_English-EWT)
+
+**Mô tả**: Corpus tiếng Anh được gán nhãn ngữ pháp theo chuẩn Universal Dependencies, chứa các câu từ blog, email, review.
+
+**Cấu trúc dữ liệu**:
+- **Format**: CoNLL-U (tab-separated values)
+- **Số lượng**: ~12,544 câu (train), ~2,001 câu (dev), ~2,077 câu (test)
+- **Các cột chính**:
+  - `ID`: Thứ tự token
+  - `FORM`: Từ gốc (string)
+  - `LEMMA`: Dạng lemma của từ (string)
+  - `UPOS`: Universal POS tag (string)
+  - `XPOS`: Language-specific POS tag (string)
+  - `HEAD`: Head token ID (integer)
+  - `DEPREL`: Dependency relation (string)
+
+**Nguồn**: https://universaldependencies.org/ - https://github.com/UniversalDependencies/UD_English-EWT
+
+**Lưu ý**: Dataset không được commit lên GitHub, chỉ lưu local. Xem [data/README.md](../data/README.md) để biết cách tải.
+
 ## 1. Mô tả công việc
 
 ### Lab 1

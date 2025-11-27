@@ -11,6 +11,34 @@
 - [Lab4/results/](../Lab4/results/): Kết quả test, training
 - [Lab4/data/](../Lab4/data/): Dữ liệu cảm xúc
 
+## 1.1. Dataset sử dụng
+
+**Tên dataset 1**: Twitter Financial News Sentiment
+
+**Mô tả**: Dataset chứa tweets về tin tức tài chính được gán nhãn cảm xúc.
+
+**Cấu trúc dữ liệu**:
+- **Format**: CSV
+- **Số lượng**: ~11,932 tweets
+- **Các cột**:
+  - `text`: Nội dung tweet (string)
+  - `label`: Nhãn cảm xúc - Negative/Neutral/Positive (string)
+- **Phân bố**: Negative (~2,106), Neutral (~5,040), Positive (~4,786)
+
+**Nguồn**: Kaggle - Twitter Financial News Sentiment Dataset
+
+**Tên dataset 2**: Sentiments.csv
+
+**Mô tả**: Dataset cảm xúc đơn giản cho classification.
+
+**Cấu trúc dữ liệu**:
+- **Format**: CSV
+- **Các cột**:
+  - `text`: Văn bản (string)
+  - `sentiment`: Nhãn cảm xúc (string/integer)
+
+**Lưu ý**: Datasets không được commit lên GitHub. Xem [data/README.md](../data/README.md) để biết chi tiết.
+
 ### 2. Giải thích chi tiết các bước triển khai
 
 **Task 1: Scikit-learn TextClassifier**
